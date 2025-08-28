@@ -1,6 +1,6 @@
-# PromptForge
+# PromptForge7
 
-![PromptForge](https://img.shields.io/badge/PromptForge-AI%20Prompt%20Converter-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzIDJMMy4wOTYwMSAxOEg2TDEzIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEgMkwyMS4wNTMgMThIMThMMTEgMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiA5TDkgMTZIMTVMMTIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=)
+![PromptForge7](https://img.shields.io/badge/PromptForge-AI%20Prompt%20Converter-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzIDJMMy4wOTYwMSAxOEg2TDEzIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEgMkwyMS4wNTMgMThIMThMMTEgMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiA5TDkgMTZIMTVMMTIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=)
 
 ![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue?style=flat-square&logo=typescript)
@@ -10,7 +10,7 @@
 
 > **Transform regular prompts into powerful structured JSON prompts that get better AI results.**
 
-PromptForge is a cutting-edge web application that leverages Google's Gemini AI to convert natural language prompts into structured JSON formats, making your AI interactions more precise, consistent, and effective.
+PromptForge7 is a cutting-edge web application that leverages Google's Gemini AI to convert natural language prompts into structured JSON formats, making your AI interactions more precise, consistent, and effective.
 
 ## ✨ Features
 
