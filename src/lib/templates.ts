@@ -67,6 +67,82 @@ export const templates: Template[] = [
     example: 'Write a comprehensive blog post about sustainable technology trends for business decision-makers'
   },
   {
+    id: 'story-generator',
+    name: 'Story Generator',
+    description: 'Generate a short story with specific characters, setting, and plot points',
+    category: 'Creative',
+    structure: {
+      task: 'generate_story',
+      genre: 'sci-fi | fantasy | mystery | romance | horror',
+      setting: {
+        time_period: 'string',
+        location: 'string',
+        atmosphere: 'string'
+      },
+      characters: [
+        {
+          name: 'string',
+          role: 'protagonist | antagonist | supporting',
+          motivation: 'string',
+          conflict: 'string'
+        }
+      ],
+      plot: {
+        inciting_incident: 'string',
+        rising_action: ['array', 'of', 'events'],
+        climax: 'string',
+        falling_action: ['array', 'of', 'events'],
+        resolution: 'string'
+      },
+      output_format: {
+        title: 'string',
+        story: 'string',
+        word_count: 'number'
+      }
+    },
+    example: 'Write a fantasy story about a reluctant hero who must find a mythical creature to save their village'
+  },
+  {
+    id: 'email-campaign',
+    name: 'Email Campaign',
+    description: 'Create a multi-email campaign for a product launch or promotion',
+    category: 'Creative',
+    structure: {
+      task: 'create_email_campaign',
+      product: {
+        name: 'string',
+        description: 'string',
+        target_audience: 'string'
+      },
+      campaign_goals: ['awareness', 'conversions', 'engagement'],
+      emails: [
+        {
+          sequence: 1,
+          subject: 'string',
+          body: 'string',
+          call_to_action: 'string'
+        },
+        {
+          sequence: 2,
+          subject: 'string',
+          body: 'string',
+          call_to_action: 'string'
+        },
+        {
+          sequence: 3,
+          subject: 'string',
+          body: 'string',
+          call_to_action: 'string'
+        }
+      ],
+      output_format: {
+        campaign_name: 'string',
+        emails: ['array', 'of', 'email', 'objects']
+      }
+    },
+    example: 'Create a 3-part email campaign for the launch of a new productivity app'
+  },
+  {
     id: 'data-extraction',
     name: 'Data Extraction & Analysis',
     description: 'Extract structured data from unstructured text with validation',
@@ -155,6 +231,69 @@ export const templates: Template[] = [
     example: 'Create a TypeScript function to validate and sanitize email addresses with comprehensive error handling'
   },
   {
+    id: 'api-design',
+    name: 'API Endpoint Design',
+    description: 'Design a RESTful API endpoint with request and response specifications',
+    category: 'Development',
+    structure: {
+      task: 'design_api_endpoint',
+      endpoint: {
+        path: '/users/{id}',
+        method: 'GET | POST | PUT | DELETE',
+        description: 'string'
+      },
+      request: {
+        headers: ['array', 'of', 'headers'],
+        path_parameters: ['array', 'of', 'path', 'parameters'],
+        query_parameters: ['array', 'of', 'query', 'parameters'],
+        body: 'json_schema'
+      },
+      response: {
+        success_status_code: 'number',
+        success_body: 'json_schema',
+        error_status_codes: ['array', 'of', 'numbers'],
+        error_body: 'json_schema'
+      },
+      output_format: {
+        openapi_spec: 'yaml | json'
+      }
+    },
+    example: 'Design a POST endpoint for creating a new user with request body validation and success/error responses'
+  },
+  {
+    id: 'database-schema',
+    name: 'Database Schema Design',
+    description: 'Design a database schema for a new feature or application',
+    category: 'Development',
+    structure: {
+      task: 'design_database_schema',
+      database_type: 'sql | nosql',
+      tables: [
+        {
+          name: 'string',
+          columns: [
+            {
+              name: 'string',
+              type: 'string',
+              constraints: ['primary_key', 'foreign_key', 'not_null', 'unique']
+            }
+          ],
+          relationships: [
+            {
+              table: 'string',
+              type: 'one-to-one | one-to-many | many-to-many'
+            }
+          ]
+        }
+      ],
+      output_format: {
+        sql_ddl: 'string',
+        erd_description: 'string'
+      }
+    },
+    example: 'Design a SQL schema for a simple e-commerce application with users, products, and orders tables'
+  },
+  {
     id: 'decision-analysis',
     name: 'Decision Analysis',
     description: 'Structured decision-making with criteria evaluation',
@@ -196,6 +335,55 @@ export const templates: Template[] = [
       }
     },
     example: 'Analyze technology stack options for a new web application considering cost, scalability, and team expertise'
+  },
+  {
+    id: 'swot-analysis',
+    name: 'SWOT Analysis',
+    description: 'Conduct a SWOT analysis for a business or project',
+    category: 'Business',
+    structure: {
+      task: 'conduct_swot_analysis',
+      subject: {
+        name: 'string',
+        description: 'string'
+      },
+      strengths: ['array', 'of', 'strengths'],
+      weaknesses: ['array', 'of', 'weaknesses'],
+      opportunities: ['array', 'of', 'opportunities'],
+      threats: ['array', 'of', 'threats'],
+      output_format: {
+        summary: 'string',
+        strategic_recommendations: ['array']
+      }
+    },
+    example: 'Conduct a SWOT analysis for a new startup in the food delivery industry'
+  },
+  {
+    id: 'meeting-agenda',
+    name: 'Meeting Agenda Generator',
+    description: 'Create a detailed agenda for a business meeting',
+    category: 'Business',
+    structure: {
+      task: 'generate_meeting_agenda',
+      meeting: {
+        title: 'string',
+        date: 'string',
+        time: 'string',
+        attendees: ['array', 'of', 'names']
+      },
+      objectives: ['array', 'of', 'goals'],
+      agenda_items: [
+        {
+          topic: 'string',
+          presenter: 'string',
+          duration: 'number (minutes)'
+        }
+      ],
+      output_format: {
+        agenda: 'string'
+      }
+    },
+    example: 'Generate a meeting agenda for a quarterly review with the sales and marketing teams'
   },
   {
     id: 'research-synthesis',

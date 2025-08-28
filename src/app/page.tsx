@@ -7,7 +7,7 @@ import Header from '@/components/ui/Header';
 import Navigation from '@/components/ui/Navigation';
 import ConverterTab from '@/components/ConverterTab';
 import TemplatesTab from '@/components/TemplatesTab';
-import LearnTab from '@/components/LearnTab';
+import Chatbot from '@/components/Chatbot';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('converter');
@@ -65,29 +65,31 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 animate-fadeIn">
+      <div className="container mx-auto px-4 py-8">
         <Header />
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {activeTab === 'converter' && (
-          <ConverterTab
-            jsonOutput={jsonOutput}
-            explanation={explanation}
-            isLoading={isLoading}
-            error={error}
-            handleConvert={handleConvert}
-            clearAll={clearAll}
-            inputPrompt={inputPrompt}
-            setInputPrompt={setInputPrompt}
-            examplePrompts={examplePrompts}
-          />
-        )}
+        <div className="animate-fadeIn">
+          {activeTab === 'converter' && (
+            <ConverterTab
+              jsonOutput={jsonOutput}
+              explanation={explanation}
+              isLoading={isLoading}
+              error={error}
+              handleConvert={handleConvert}
+              clearAll={clearAll}
+              inputPrompt={inputPrompt}
+              setInputPrompt={setInputPrompt}
+              examplePrompts={examplePrompts}
+            />
+          )}
 
-        {activeTab === 'templates' && (
-          <TemplatesTab applyTemplate={applyTemplate} />
-        )}
+          {activeTab === 'templates' && (
+            <TemplatesTab applyTemplate={applyTemplate} />
+          )}
 
-        {activeTab === 'learn' && <LearnTab />}
+          {activeTab === 'learn' && <Chatbot />}
+        </div>
       </div>
     </div>
   );

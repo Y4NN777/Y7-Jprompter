@@ -1,6 +1,6 @@
 'use client';
 
-import { Zap, Code, BookOpen } from 'lucide-react';
+import { Wand2, Code, BookOpen } from 'lucide-react';
 
 interface NavigationProps {
   activeTab: string;
@@ -8,7 +8,7 @@ interface NavigationProps {
 }
 
 const navItems = [
-  { id: 'converter', label: 'Converter', icon: Zap },
+  { id: 'converter', label: 'Converter', icon: Wand2 },
   { id: 'templates', label: 'Templates', icon: Code },
   { id: 'learn', label: 'Learn', icon: BookOpen }
 ];
