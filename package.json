@@ -1,27 +1,46 @@
 {
-  "name": "promptforge",
-  "version": "0.1.0",
+  "name": "promptforge7",
+  "version": "1.0.0",
+  "description": "Transform regular prompts into powerful structured JSON prompts",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "export": "npm run build && next export",
+    "deploy": "npm run build && npx netlify deploy --prod --dir=out"
   },
   "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.2"
+    "@google/generative-ai": "^0.17.1",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/node": "^22.5.4",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.8",
+    "lucide-react": "^0.441.0",
+    "next": "^14.2.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-syntax-highlighter": "^5.8.0",
+    "typescript": "^5.6.2"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.2",
-    "@eslint/eslintrc": "^3"
-  }
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.45",
+    "tailwindcss": "^3.4.10"
+  },
+  "keywords": [
+    "ai",
+    "prompts",
+    "json",
+    "prompt-engineering",
+    "gemini",
+    "nextjs",
+    "typescript"
+  ],
+  "author": "PromptForge Team",
+  "license": "MIT"
 }
