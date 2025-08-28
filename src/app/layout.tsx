@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'PromptForge7 - Master JSON Prompting',
+  title: 'PromptForge - Master JSON Prompting',
   description: 'Transform regular prompts into powerful structured JSON prompts that get better AI results. Built with Next.js and Google Gemini AI.',
   keywords: ['AI prompts', 'JSON prompting', 'prompt engineering', 'Gemini AI', 'structured prompts'],
   authors: [{ name: 'PromptForge Team' }],
@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: '/favicon.svg',
   },
 }
 
