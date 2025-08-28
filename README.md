@@ -1,6 +1,6 @@
 # PromptForge7
 
-![PromptForge7](https://img.shields.io/badge/PromptForge-AI%20Prompt%20Converter-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzIDJMMy4wOTYwMSAxOEg2TDEzIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEgMkwyMS4wNTMgMThIMThMMTEgMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiA5TDkgMTZIMTVMMTIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=)
+![PromptForge7](https://img.shields.io/badge/PromptForge7-AI%20Prompt%20Converter-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWZpbGUtanNvbiI+PHBhdGggZD0iTTE1IDJINmEyIDIgMCAwIDAtMiAydjE2YTIgMiAwIDAgMCAyIDJoMTJhMiAyIDAgMCAwIDItMlY3WiIvPjxwYXRoIGQ9Ik0xNCAydjRhMiAyIDAgMCAwIDIgMmg0Ii8+PHBhdGggZD0iTTQgMTJoMSIvPjxwYXRoIGQ9Ik0xOSAxMmgxIi8+PHBhdGggZD0iTTEwIDE4di0xYTIgMiAwIDAgMSAyLTIgMiAyIDAgMCAwLTItMnYtMSIvPjwvc3ZnPg==)
 
 ![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue?style=flat-square&logo=typescript)
@@ -14,11 +14,12 @@ PromptForge7 is a cutting-edge web application that leverages Google's Gemini AI
 
 ## ✨ Features
 
-- 🧠 **AI-Powered Conversion** - Smart transformation using Google Gemini 2.0
+- 🧠 **AI-Powered Conversion** - Smart transformation using Google Gemini
 - 📚 **Template Library** - Pre-built templates for common use cases
-- 🎨 **Beautiful UI** - Modern, responsive design with smooth animations  
+- 🎨 **Beautiful UI** - Modern, responsive design with smooth animations
 - 📋 **Copy & Export** - Easy sharing and downloading of JSON prompts
-- 📖 **Learning Center** - Comprehensive guide to JSON prompting best practices
+- 🤖 **Interactive Chatbot** - Learn about JSON prompting from an AI assistant
+- ↔️ **Resizable Panels** - Adjust the layout to your preference
 - ⚡ **Real-time Processing** - Fast conversions with detailed explanations
 - 🔍 **Template Search** - Find the perfect template quickly
 - 💾 **Export Ready** - Download JSON files for immediate use
@@ -27,7 +28,7 @@ PromptForge7 is a cutting-edge web application that leverages Google's Gemini AI
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - Google Gemini API key ([Get yours here](https://makersuite.google.com/app/apikey))
 
@@ -35,8 +36,8 @@ PromptForge7 is a cutting-edge web application that leverages Google's Gemini AI
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/promptforge.git
-cd promptforge
+git clone https://github.com/Y4NN777/PromptForge7.git
+cd PromptForge7
 
 # Install dependencies
 npm install
@@ -64,20 +65,23 @@ NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key_here
 - **Framework**: Next.js 14 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **AI**: Google Gemini 2.0 Flash
-- **Syntax Highlighting**: Prism.js via react-syntax-highlighter
+- **AI**: Google Gemini
 - **Icons**: Lucide React
 - **Deployment**: Netlify (recommended) or Vercel
 
 ## 📁 Project Structure
 
 ```
-promptforge/
+promptforge7/
 ├── src/
 │   ├── app/
 │   │   ├── globals.css         # Global styles
 │   │   ├── layout.tsx          # Root layout
 │   │   └── page.tsx            # Main application
+│   ├── components/
+│   │   ├── Chatbot.tsx         # Interactive learning center
+│   │   ├── ConverterTab.tsx    # Main converter UI
+│   │   └── TemplatesTab.tsx    # Template library UI
 │   ├── lib/
 │   │   ├── gemini.ts           # Gemini AI integration
 │   │   └── templates.ts        # Prompt templates
@@ -97,11 +101,11 @@ promptforge/
 1. **Enter Your Prompt**: Type or paste your natural language prompt
 2. **Click Convert**: Let AI transform it into structured JSON
 3. **Review & Export**: Copy or download the generated JSON prompt
-4. **Learn**: Read the explanation to understand improvements
+4. **Learn**: Click the help icon to understand the improvements
 
 ### Using Templates
 
 1. **Browse Categories**: Explore templates by Analysis, Creative, Development, etc.
-2. **Search**: Use the search bar to find specific templates
-3. **Preview Structure**: Expand templates to see JSON structure
-4. **Apply**: Click "Use
+2. **Apply**: Click "Use This Template" to load it into the converter
+
+
