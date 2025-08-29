@@ -8,9 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next export",
-    "build:static": "next build && next export",
-    "deploy": "npm run build && npx netlify deploy --prod --dir=out"
+  "export": "echo 'next export is deprecated. Use next build with output: export'",
+  "build:static": "next build",
+  "deploy": "npm run build && npx netlify deploy --prod --dir=out"
   },
   "dependencies": {
     "@google/generative-ai": "^0.17.1",
