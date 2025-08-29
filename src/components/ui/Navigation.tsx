@@ -10,7 +10,7 @@ interface NavigationProps {
 const navItems = [
   { id: 'converter', label: 'Converter', icon: Wand2 },
   { id: 'templates', label: 'Templates', icon: Code },
-  { id: 'learn', label: 'Learn', icon: BookOpen }
+  { id: 'learning', label: 'Learning', icon: BookOpen }
 ];
 
 export default function Navigation({ activeTab, setActiveTab }: NavigationProps) {

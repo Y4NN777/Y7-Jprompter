@@ -29,10 +29,10 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl shadow-2xl w-full max-w-2xl p-8 m-4 animate-modal-in"
+        className="bg-white rounded-xl shadow-2xl w-full max-w-2xl flex flex-col m-4 animate-modal-in max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center border-b pb-4 mb-6">
+        <div className="flex justify-between items-center border-b p-6 mb-0">
           <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
           <button 
             onClick={onClose}
@@ -41,7 +41,7 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
             <X className="h-6 w-6" />
           </button>
         </div>
-        <div>
+        <div className="p-6 overflow-y-auto">
           {children}
         </div>
       </div>

@@ -1,18 +1,18 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error('Missing GEMINI_API_KEY environment variable');
+if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+  throw new Error('Missing NEXT_PUBLIC_GEMINI_API_KEY environment variable');
 }
 
 function getGenAI() {
-  if (!process.env.GEMINI_API_KEY) {
-    throw new Error('Missing GEMINI_API_KEY environment variable');
+  if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+    throw new Error('Missing NEXT_PUBLIC_GEMINI_API_KEY environment variable');
   }
-  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  return new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
 }
 
 
-export async function convertToJSONPrompt(regularPrompt: string) {
+export async function convertToJSONPrompt(regularPrompt: string, complexity: number) {
   try {
     if (!regularPrompt.trim()) {
       throw new Error('Prompt cannot be empty');
@@ -21,17 +21,20 @@ export async function convertToJSONPrompt(regularPrompt: string) {
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
 
     const systemPrompt = `You are a JSON prompt engineering expert. Convert this regular prompt into a structured JSON format optimized for LLM interactions.
-
-REQUIREMENTS:
-1. Analyze the prompt and identify key components
-2. Create a JSON structure with relevant fields: task, input, output_format, requirements, context, constraints
-3. Make it specific, actionable, and well-structured
-4. Include validation rules where appropriate
-5. Return ONLY valid JSON, no additional text or formatting
-
-Regular prompt to convert: "${regularPrompt}"
-
-Return a complete JSON prompt structure:`;
+ 
+ The complexity level for the JSON structure is ${complexity} out of 7, where 1 is the simplest and 7 is the most complex.
+ 
+ REQUIREMENTS:
+ 1. Analyze the prompt and identify key components
+ 2. Create a JSON structure with relevant fields: task, input, output_format, requirements, context, constraints
+ 3. Adjust the level of detail and structure based on the complexity score.
+ 4. Make it specific, actionable, and well-structured
+ 5. Include validation rules where appropriate
+ 6. Return ONLY valid JSON, no additional text or formatting
+ 
+ Regular prompt to convert: "${regularPrompt}"
+ 
+ Return a complete JSON prompt structure:`;
 
     const result = await model.generateContent({
       contents: [{ role: 'user', parts: [{ text: systemPrompt }] }],

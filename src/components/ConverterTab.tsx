@@ -1,12 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Wand2, AlertCircle, Copy, Download, CheckCircle, Code2, HelpCircle } from 'lucide-react';
+import { Wand2, AlertCircle, Copy, Download, CheckCircle, Code2, HelpCircle, Pencil } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
-import ReactMarkdown from 'react-markdown';
 import { JSONPromptStructure } from '@/types';
 import Card from './ui/Card';
-import Modal from './ui/Modal';
 
 interface ConverterTabProps {
   jsonOutput: JSONPromptStructure | null;
@@ -18,6 +16,9 @@ interface ConverterTabProps {
   inputPrompt: string;
   setInputPrompt: (prompt: string) => void;
   examplePrompts: string[];
+  setIsModalOpen: (isOpen: boolean) => void;
+  complexity: number;
+  setComplexity: (complexity: number) => void;
 }
 
 export default function ConverterTab({
@@ -30,9 +31,13 @@ export default function ConverterTab({
   inputPrompt,
   setInputPrompt,
   examplePrompts,
+  setIsModalOpen,
+  complexity,
+  setComplexity,
 }: ConverterTabProps) {
   const [copySuccess, setCopySuccess] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedJson, setEditedJson] = useState('');
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -92,7 +97,7 @@ export default function ConverterTab({
             placeholder="Enter your regular prompt here...
 
 Example: 'Analyze this sales data and give me insights about customer behavior patterns'"
-            className="w-full h-full p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full flex-grow p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
           />
           
           <div className="flex justify-between items-center mt-2 mb-4">
@@ -107,7 +112,60 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
             )}
           </div>
           
-          <div className="flex gap-3">
+          <div className="flex items-center gap-4 mt-4">
+            <label htmlFor="complexity" className="text-sm font-medium text-gray-700">
+              Complexity: <span className="font-bold text-blue-600">{complexity}</span>
+            </label>
+            <input
+              id="complexity"
+              type="range"
+              min="1"
+              max="7"
+              value={complexity}
+              onChange={(e) => setComplexity(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+            />
+          </div>
+          
+          <style jsx>{`
+      .slider-thumb::-webkit-slider-runnable-track {
+        background: linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
+          ((complexity - 1) / 6) * 100
+        }%, #e5e7eb ${
+          ((complexity - 1) / 6) * 100
+        }%, #e5e7eb 100%);
+        border-radius: 9999px;
+      }
+      .slider-thumb::-moz-range-track {
+        background: linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
+          ((complexity - 1) / 6) * 100
+        }%, #e5e7eb ${
+          ((complexity - 1) / 6) * 100
+        }%, #e5e7eb 100%);
+        border-radius: 9999px;
+      }
+      .slider-thumb::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 9999px;
+        background-color: #3b82f6;
+        cursor: pointer;
+        margin-top: -6px;
+        border: 2px solid white;
+      }
+      .slider-thumb::-moz-range-thumb {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 9999px;
+        background-color: #3b82f6;
+        cursor: pointer;
+        border: 2px solid white;
+      }
+    `}</style>
+          
+          <div className="flex gap-3 mt-4">
             <button
               onClick={handleConvert}
               disabled={isLoading || !inputPrompt.trim()}
@@ -157,7 +215,16 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
                   </button>
                 )}
                 <button
-                  onClick={() => copyToClipboard(JSON.stringify(jsonOutput, null, 2))}
+                  onClick={() => setIsEditing(!isEditing)}
+                  className={`p-2 transition-colors ${
+                    isEditing ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
+                  }`}
+                  title="Edit JSON"
+                >
+                  <Pencil className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => copyToClipboard(editedJson || JSON.stringify(jsonOutput, null, 2))}
                   className={`p-2 transition-colors ${
                     copySuccess
                       ? 'text-green-600'
@@ -183,25 +250,15 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
           </div>
 
           {jsonOutput ? (
-            <div className="space-y-6 h-full">
-              <div className="bg-gray-900 rounded-lg p-4 overflow-auto h-full custom-scrollbar">
-                <pre className="text-green-400 text-sm">
-                  <code>{JSON.stringify(jsonOutput, null, 2)}</code>
-                </pre>
-              </div>
-
-              {explanation && (
-                <Modal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                  title="Why This Structure Works Better"
-                >
-                  <div className="prose prose-sm max-w-none">
-                    <ReactMarkdown>{explanation}</ReactMarkdown>
-                  </div>
-                </Modal>
-              )}
-
+            <div className="space-y-6 flex-grow flex flex-col">
+              <textarea
+                value={editedJson || JSON.stringify(jsonOutput, null, 2)}
+                readOnly={!isEditing}
+                onChange={(e) => setEditedJson(e.target.value)}
+                className={`w-full flex-grow p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-900 text-green-400 custom-scrollbar ${
+                  isEditing ? 'bg-gray-800' : ''
+                }`}
+              />
               {copySuccess && (
                 <div className="text-center">
                   <span className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">

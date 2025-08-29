@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { convertToJSONPrompt, explainConversion } from '@/lib/gemini';
 import { JSONPromptStructure, Template } from '@/types';
 import Header from '@/components/ui/Header';
 import Navigation from '@/components/ui/Navigation';
 import ConverterTab from '@/components/ConverterTab';
+import Modal from '@/components/ui/Modal';
 import TemplatesTab from '@/components/TemplatesTab';
 import Chatbot from '@/components/Chatbot';
 
@@ -16,6 +18,8 @@ export default function Home() {
   const [explanation, setExplanation] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [complexity, setComplexity] = useState(4);
 
   const handleConvert = async () => {
     if (!inputPrompt.trim()) {
@@ -27,7 +31,7 @@ export default function Home() {
     setError('');
     
     try {
-      const result = await convertToJSONPrompt(inputPrompt);
+      const result = await convertToJSONPrompt(inputPrompt, complexity);
       setJsonOutput(result);
       
       const exp = await explainConversion(inputPrompt, result);
@@ -81,6 +85,9 @@ export default function Home() {
               inputPrompt={inputPrompt}
               setInputPrompt={setInputPrompt}
               examplePrompts={examplePrompts}
+              setIsModalOpen={setIsModalOpen}
+              complexity={complexity}
+              setComplexity={setComplexity}
             />
           )}
 
@@ -88,9 +95,20 @@ export default function Home() {
             <TemplatesTab applyTemplate={applyTemplate} />
           )}
 
-          {activeTab === 'learn' && <Chatbot />}
+          {activeTab === 'learning' && <Chatbot />}
         </div>
       </div>
+      {explanation && (
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Why This Structure Works Better"
+        >
+          <div className="prose prose-sm max-w-none">
+            <ReactMarkdown>{explanation}</ReactMarkdown>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
