@@ -12,22 +12,23 @@
 
 PromptForge7 is a cutting-edge web application that leverages Google's Gemini AI to convert natural language prompts into structured JSON formats, making your AI interactions more precise, consistent, and effective.
 
-## ✨ Features
+## Features
 
-- 🧠 **AI-Powered Conversion** - Smart transformation using Google Gemini 2.0
-- 📚 **Template Library** - Pre-built templates for common use cases
-- 🎨 **Beautiful UI** - Modern, responsive design with smooth animations  
-- 📋 **Copy & Export** - Easy sharing and downloading of JSON prompts
-- 📖 **Learning Center** - Comprehensive guide to JSON prompting best practices
-- ⚡ **Real-time Processing** - Fast conversions with detailed explanations
-- 🔍 **Template Search** - Find the perfect template quickly
-- 💾 **Export Ready** - Download JSON files for immediate use
+- **AI-Powered Conversion**: Smart transformation using Google Gemini 2.0.
+- **Template Library**: Pre-built templates for common use cases.
+- **Modern UI**: A responsive design with smooth animations.
+- **Copy & Export**: Easy sharing and downloading of JSON prompts.
+- **Learning Center**: A comprehensive guide to JSON prompting best practices.
+- **Real-time Processing**: Fast conversions with detailed explanations.
+- **Template Search**: Find the perfect template quickly.
+- **Editable JSON**: Edit the generated JSON directly in the UI.
+- **Complexity Control**: Adjust the complexity of the generated JSON with a simple slider.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - Google Gemini API key ([Get yours here](https://makersuite.google.com/app/apikey))
 
@@ -59,7 +60,7 @@ Create a `.env.local` file in your project root:
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Next.js 14 with App Router
 - **Language**: TypeScript
@@ -69,7 +70,7 @@ GEMINI_API_KEY=your_gemini_api_key_here
 - **Icons**: Lucide React
 - **Deployment**: Netlify (recommended) or Vercel
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 promptforge/
@@ -86,22 +87,24 @@ promptforge/
 ├── public/                     # Static assets
 ├── .env.local                  # Environment variables
 ├── next.config.js              # Next.js configuration
-├── netlify.toml               # Netlify deployment config
+deployment config
 └── tailwind.config.js         # Tailwind CSS config
 ```
 
-## 🎯 Usage
+## Usage
 
 ### Converting Prompts
 
-1. **Enter Your Prompt**: Type or paste your natural language prompt
-2. **Click Convert**: Let AI transform it into structured JSON
-3. **Review & Export**: Copy or download the generated JSON prompt
-4. **Learn**: Read the explanation to understand improvements
+1.  **Enter Your Prompt**: Type or paste your natural language prompt.
+2.  **Adjust Complexity**: Use the slider to set the desired complexity of the JSON output.
+3.  **Click Convert**: Let AI transform it into structured JSON.
+4.  **Review & Edit**: Review the generated JSON and edit it directly if needed.
+5.  **Export**: Copy or download the generated JSON prompt.
+6.  **Learn**: Read the explanation to understand the improvements.
 
 ### Using Templates
 
-1. **Browse Categories**: Explore templates by Analysis, Creative, Development, etc.
-2. **Search**: Use the search bar to find specific templates
-3. **Preview Structure**: Expand templates to see JSON structure
-4. **Apply**: Click "Use
+1.  **Browse Categories**: Explore templates by Analysis, Creative, Development, etc.
+2.  **Search**: Use the search bar to find specific templates.
+3.  **Preview Structure**: Expand templates to see the JSON structure.
+4.  **Apply**: Click "Use Template" to load the structure into the converter.

@@ -130,17 +130,17 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
           <style jsx>{`
       .slider-thumb::-webkit-slider-runnable-track {
         background: linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-          ((complexity - 1) / 6) * 100
+          (complexity / 7) * 100
         }%, #e5e7eb ${
-          ((complexity - 1) / 6) * 100
+          (complexity / 7) * 100
         }%, #e5e7eb 100%);
         border-radius: 9999px;
       }
       .slider-thumb::-moz-range-track {
         background: linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-          ((complexity - 1) / 6) * 100
+          (complexity / 7) * 100
         }%, #e5e7eb ${
-          ((complexity - 1) / 6) * 100
+          (complexity / 7) * 100
         }%, #e5e7eb 100%);
         border-radius: 9999px;
       }
