@@ -70,10 +70,10 @@ export default function ConverterTab({
   };
 
   return (
-    <PanelGroup direction="horizontal" className="h-[70vh]">
+    <PanelGroup direction="vertical" className="h-auto md:h-[70vh] md:flex-row">
       <Panel defaultSize={50} minSize={30}>
         <Card>
-          <h2 className="text-2xl font-bold mb-4">Regular Prompt</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4">Regular Prompt</h2>
           
           {/* Example prompts */}
           <div className="mb-4">
@@ -97,7 +97,7 @@ export default function ConverterTab({
             placeholder="Enter your regular prompt here...
 
 Example: 'Analyze this sales data and give me insights about customer behavior patterns'"
-            className="w-full flex-grow p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full flex-grow p-3 sm:p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
           />
           
           <div className="flex justify-between items-center mt-2 mb-4">
@@ -163,11 +163,11 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
       }
     `}</style>
           
-          <div className="flex gap-3 mt-4">
+          <div className="flex flex-col sm:flex-row gap-3 mt-4">
             <button
               onClick={handleConvert}
               disabled={isLoading || !inputPrompt.trim()}
-              className="btn-primary flex items-center gap-2"
+              className="btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               {isLoading ? (
                 <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -179,7 +179,7 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
             
             <button
               onClick={clearAll}
-              className="btn-secondary"
+              className="btn-secondary w-full sm:w-auto"
               disabled={isLoading}
             >
               Clear All
@@ -200,7 +200,7 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
       <Panel defaultSize={50} minSize={30}>
         <Card>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold">JSON Prompt</h2>
+            <h2 className="text-xl sm:text-2xl font-bold">JSON Prompt</h2>
             {jsonOutput && (
               <div className="flex gap-2">
                  {explanation && (

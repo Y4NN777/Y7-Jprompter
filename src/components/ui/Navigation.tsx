@@ -15,20 +15,20 @@ const navItems = [
 
 export default function Navigation({ activeTab, setActiveTab }: NavigationProps) {
   return (
-    <div className="flex justify-center mb-8">
-      <div className="glass-nav">
+    <div className="flex justify-center mb-8 px-4">
+      <div className="glass-nav flex flex-wrap justify-center gap-1">
         {navItems.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-md font-medium transition-colors ${
-              activeTab === id 
-                ? 'bg-blue-600 text-white shadow-sm' 
+            className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-md font-medium transition-colors text-sm sm:text-base ${
+              activeTab === id
+                ? 'bg-blue-600 text-white shadow-sm'
                 : 'text-gray-600 hover:text-blue-600 hover:bg-gray-50'
             }`}
           >
-            <Icon className="h-5 w-5" />
-            {label}
+            <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="hidden sm:inline">{label}</span>
           </button>
         ))}
       </div>
