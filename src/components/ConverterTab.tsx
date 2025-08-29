@@ -124,24 +124,20 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
               value={complexity}
               onChange={(e) => setComplexity(Number(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+              style={{ '--slider-progress': `${((complexity - 1) / 6) * 100}%` } as React.CSSProperties}
             />
           </div>
           
           <style jsx>{`
+      .slider-thumb {
+        --slider-progress: 0%;
+      }
       .slider-thumb::-webkit-slider-runnable-track {
-        background: linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-          (complexity / 7) * 100
-        }%, #e5e7eb ${
-          (complexity / 7) * 100
-        }%, #e5e7eb 100%);
+        background: linear-gradient(to right, #3b82f6 var(--slider-progress), #e5e7eb var(--slider-progress));
         border-radius: 9999px;
       }
       .slider-thumb::-moz-range-track {
-        background: linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-          (complexity / 7) * 100
-        }%, #e5e7eb ${
-          (complexity / 7) * 100
-        }%, #e5e7eb 100%);
+        background: linear-gradient(to right, #3b82f6 var(--slider-progress), #e5e7eb var(--slider-progress));
         border-radius: 9999px;
       }
       .slider-thumb::-webkit-slider-thumb {
@@ -154,6 +150,7 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
         cursor: pointer;
         margin-top: -6px;
         border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
       }
       .slider-thumb::-moz-range-thumb {
         width: 1.25rem;
@@ -162,6 +159,7 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
         background-color: #3b82f6;
         cursor: pointer;
         border: 2px solid white;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
       }
     `}</style>
           
