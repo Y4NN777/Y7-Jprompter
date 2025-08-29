@@ -1,6 +1,7 @@
+
 [build]
   publish = "out"
-  command = "npm run build"
+  command = "npm run build:static"
 
 [build.environment]
   NODE_VERSION = "18"
@@ -11,7 +12,7 @@
   status = 200
 
 [context.deploy-preview]
-  command = "npm run build"
+  command = "npm run build:static"
 
 [context.branch-deploy]
-  command = "npm run build"
+  command = "npm run build:static"
