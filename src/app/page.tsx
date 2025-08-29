@@ -6,6 +6,7 @@ import { convertToJSONPrompt, explainConversion, summarizePrompt } from '@/lib/g
 import { JSONPromptStructure, Template } from '@/types';
 import Header from '@/components/ui/Header';
 import Navigation from '@/components/ui/Navigation';
+import MobileNavigation from '@/components/ui/MobileNavigation';
 import ConverterTab from '@/components/ConverterTab';
 import Modal from '@/components/ui/Modal';
 import TemplatesTab from '@/components/TemplatesTab';
@@ -74,9 +75,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 pb-20 md:pb-8">
         <Header />
         <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+        <MobileNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <div className="animate-fadeIn">
           {activeTab === 'converter' && (
