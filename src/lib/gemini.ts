@@ -4,16 +4,22 @@ if (!process.env.GEMINI_API_KEY) {
   throw new Error('Missing GEMINI_API_KEY environment variable');
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+function getGenAI() {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error('Missing GEMINI_API_KEY environment variable');
+  }
+  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+}
+
 
 export async function convertToJSONPrompt(regularPrompt: string) {
   try {
     if (!regularPrompt.trim()) {
       throw new Error('Prompt cannot be empty');
     }
-
+    const genAI = getGenAI();
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
-    
+
     const systemPrompt = `You are a JSON prompt engineering expert. Convert this regular prompt into a structured JSON format optimized for LLM interactions.
 
 REQUIREMENTS:
@@ -68,6 +74,8 @@ Return a complete JSON prompt structure:`;
 
 export async function explainConversion(originalPrompt: string, jsonPrompt: object): Promise<string> {
   try {
+
+    const genAI = getGenAI();
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
     
     const prompt = `Explain why this JSON prompt structure is more effective than the original natural language prompt.
