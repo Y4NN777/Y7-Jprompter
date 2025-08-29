@@ -56,7 +56,7 @@ Open [http://localhost:3000](http://localhost:3000) to see your application.
 Create a `.env.local` file in your project root:
 
 ```env
-NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 ## 🛠️ Tech Stack
