@@ -1,6 +1,6 @@
-# PromptForge7
+# Y7-Jprompter
 
-![PromptForge7](https://img.shields.io/badge/PromptForge-AI%20Prompt%20Converter-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzIDJMMy4wOTYwMSAxOEg2TDEzIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEgMkwyMS4wNTMgMThIMThMMTEgMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiA5TDkgMTZIMTVMMTIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=)
+![Y7-Jprompter](https://img.shields.io/badge/Y7-Jprompter-blue?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEzIDJMMy4wOTYwMSAxOEg2TDEzIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEgMkwyMS4wNTMgMThIMThMMTEgMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMiA5TDkgMTZIMTVMMTIgOVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=)
 
 ![Next.js](https://img.shields.io/badge/Next.js-14+-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue?style=flat-square&logo=typescript)
@@ -10,7 +10,7 @@
 
 > **Transform regular prompts into powerful structured JSON prompts that get better AI results.**
 
-PromptForge7 is a web application that leverages Google's Gemini AI to convert natural language prompts into structured JSON formats, making your AI interactions more precise, consistent, and effective.
+Y7-Jprompter is a web application that leverages Google's Gemini AI to convert natural language prompts into structured JSON formats, making your AI interactions more precise, consistent, and effective.
 
 ![Demo](./demo.gif)
 <img width="400" height="201" alt="image" src="https://github.com/user-attachments/assets/6ad20bb4-6b7a-4fd8-baaa-d9839ed4f24c" />
@@ -42,8 +42,8 @@ PromptForge7 is a web application that leverages Google's Gemini AI to convert n
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/promptforge.git
-cd promptforge
+git clone https://github.com/yourusername/y7-jprompter.git
+cd y7-jprompter
 
 # Install dependencies
 npm install
@@ -79,7 +79,7 @@ GEMINI_API_KEY=your_gemini_api_key_here
 ## Project Structure
 
 ```
-promptforge/
+y7-jprompter/
 ├── src/
 │   ├── app/
 │   │   ├── globals.css         # Global styles

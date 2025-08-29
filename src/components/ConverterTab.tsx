@@ -104,10 +104,10 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
             <span className="text-sm text-gray-500">
               {inputPrompt.length} characters
             </span>
-            {inputPrompt.length > 1000 && (
+            {inputPrompt.length > 1500 && (
               <span className="text-sm text-orange-500 flex items-center gap-1">
                 <AlertCircle className="h-4 w-4" />
-                Very long prompt
+                Prompt is very long and will be summarized.
               </span>
             )}
           </div>

@@ -110,6 +110,32 @@ Format as clean bullet points:`;
     return 'Unable to generate explanation at this time. The JSON structure provides better organization and specificity than the original prompt.';
   }
 }
+export async function summarizePrompt(prompt: string): Promise<string> {
+  try {
+    const genAI = getGenAI();
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+
+    const systemPrompt = `Summarize the following text, retaining the key instructions and context. The summary should be concise and under 150 words.
+
+Text to summarize: "${prompt}"
+
+Return only the summarized text.`;
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: systemPrompt }] }],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 200,
+      },
+    });
+
+    return result.response.text().trim();
+  } catch (error) {
+    console.error('Summarization Error:', error);
+    // Fallback to simple truncation if summarization fails
+    return prompt.substring(0, 1000) + '...';
+  }
+}
 
 // Utility function to validate JSON structure
 export function validateJSONPrompt(jsonPrompt: unknown): boolean {

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { convertToJSONPrompt, explainConversion } from '@/lib/gemini';
+import { convertToJSONPrompt, explainConversion, summarizePrompt } from '@/lib/gemini';
 import { JSONPromptStructure, Template } from '@/types';
 import Header from '@/components/ui/Header';
 import Navigation from '@/components/ui/Navigation';
@@ -31,10 +31,15 @@ export default function Home() {
     setError('');
     
     try {
-      const result = await convertToJSONPrompt(inputPrompt, complexity);
+      let promptToConvert = inputPrompt;
+      if (inputPrompt.length > 1500) {
+        promptToConvert = await summarizePrompt(inputPrompt);
+      }
+
+      const result = await convertToJSONPrompt(promptToConvert, complexity);
       setJsonOutput(result);
       
-      const exp = await explainConversion(inputPrompt, result);
+      const exp = await explainConversion(promptToConvert, result);
       setExplanation(exp);
     } catch (error: unknown) {
       if (error instanceof Error) {
