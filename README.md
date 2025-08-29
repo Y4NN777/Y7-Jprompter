@@ -10,7 +10,16 @@
 
 > **Transform regular prompts into powerful structured JSON prompts that get better AI results.**
 
-PromptForge7 is a cutting-edge web application that leverages Google's Gemini AI to convert natural language prompts into structured JSON formats, making your AI interactions more precise, consistent, and effective.
+PromptForge7 is a web application that leverages Google's Gemini AI to convert natural language prompts into structured JSON formats, making your AI interactions more precise, consistent, and effective.
+
+<img width="1350" height="651" alt="image" src="https://github.com/user-attachments/assets/c8a68efb-33b6-40bd-b1d6-2e8a68c5f396" />
+<img width="1349" height="645" alt="image" src="https://github.com/user-attachments/assets/6ad20bb4-6b7a-4fd8-baaa-d9839ed4f24c" />
+<img width="1349" height="645" alt="image" src="https://github.com/user-attachments/assets/0df9289e-46ac-4754-ab8b-d12aba6e915c" />
+
+
+
+
+
 
 ## Features
 
