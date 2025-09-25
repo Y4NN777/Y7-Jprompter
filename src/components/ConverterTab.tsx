@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { JSONPromptStructure } from '@/types';
@@ -36,7 +37,16 @@ export default function ConverterTab({
   complexity,
   setComplexity,
 }: ConverterTabProps) {
+  const [mounted, setMounted] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="flex items-center justify-center h-64">Loading...</div>;
+  }
 
   if (isMobile) {
     return (

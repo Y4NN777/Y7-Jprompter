@@ -162,22 +162,24 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
         <button
           onClick={handleConvert}
           disabled={isLoading || !inputPrompt.trim()}
-          className="btn-primary flex items-center gap-2"
+          className="btn-primary flex items-center gap-2 flex-1 justify-center"
         >
           {isLoading ? (
             <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
           ) : (
             <Wand2 className="h-5 w-5" />
           )}
-          {isLoading ? 'Converting...' : 'Convert to JSON'}
+          <span className="hidden sm:inline">{isLoading ? 'Converting...' : 'Convert to JSON'}</span>
+          <span className="sm:hidden">{isLoading ? 'Converting...' : 'Convert'}</span>
         </button>
 
         <button
           onClick={clearAll}
-          className="btn-secondary"
+          className="btn-secondary flex-1"
           disabled={isLoading}
         >
-          Clear All
+          <span className="hidden sm:inline">Clear All</span>
+          <span className="sm:hidden">Clear</span>
         </button>
       </div>
 

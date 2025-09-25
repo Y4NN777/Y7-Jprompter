@@ -20,11 +20,11 @@ export default function MobileNavigation({ activeTab, setActiveTab }: MobileNavi
         <button
           key={id}
           onClick={() => setActiveTab(id)}
-          className={`flex flex-col items-center gap-1 text-xs transition-colors ${
-            activeTab === id ? 'text-blue-600' : 'text-gray-500'
+          className={`flex flex-col items-center gap-1 text-sm py-2 px-3 rounded-lg transition-colors ${
+            activeTab === id ? 'text-blue-600 bg-blue-50' : 'text-gray-500 hover:text-blue-600'
           }`}
         >
-          <Icon className="h-5 w-5" />
+          <Icon className="h-6 w-6" />
           {label}
         </button>
       ))}
