@@ -18,15 +18,8 @@ export interface TemplateCategory {
 }
 
 // Enhanced types for better type safety
-export interface JSONPromptStructure {
-  task: string;
-  input?: string | object;
-  output_format?: object;
-  requirements?: object;
-  context?: string;
-  constraints?: object;
-  examples?: unknown[];
-}
+// Note: Keys are now multilingual, so using Record for flexibility
+export type JSONPromptStructure = Record<string, unknown>;
 
 export interface ConversionError {
   message: string;

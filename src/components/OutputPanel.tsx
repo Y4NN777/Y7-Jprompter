@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Download, CheckCircle, Code2, HelpCircle, Pencil } from 'lucide-react';
+import { Copy, Download, CheckCircle, Code2, HelpCircle, Pencil, Save } from 'lucide-react';
 import { JSONPromptStructure } from '@/types';
 
 interface OutputPanelProps {
@@ -64,15 +64,26 @@ export default function OutputPanel({
                 <HelpCircle className="h-5 w-5" />
               </button>
             )}
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              className={`p-2 transition-colors ${
-                isEditing ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
-              }`}
-              title="Edit JSON"
-            >
-              <Pencil className="h-5 w-5" />
-            </button>
+            {isEditing ? (
+              <button
+                onClick={() => setIsEditing(false)}
+                className="p-2 text-green-600 hover:text-green-700 transition-colors"
+                title="Save edits"
+              >
+                <Save className="h-5 w-5" />
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setIsEditing(true);
+                  setEditedJson(JSON.stringify(jsonOutput, null, 2));
+                }}
+                className="p-2 text-gray-500 hover:text-blue-600 transition-colors"
+                title="Edit JSON"
+              >
+                <Pencil className="h-5 w-5" />
+              </button>
+            )}
             <button
               onClick={() => copyToClipboard(editedJson || JSON.stringify(jsonOutput, null, 2))}
               className={`p-2 transition-colors ${
@@ -102,10 +113,10 @@ export default function OutputPanel({
       {jsonOutput ? (
         <div className="space-y-6 flex-grow flex flex-col">
           <textarea
-            value={editedJson || JSON.stringify(jsonOutput, null, 2)}
+            value={isEditing ? editedJson : JSON.stringify(jsonOutput, null, 2)}
             readOnly={!isEditing}
             onChange={(e) => setEditedJson(e.target.value)}
-            className={`w-full flex-grow p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-900 text-green-400 custom-scrollbar ${
+            className={`w-full flex-grow p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-900 text-green-400 custom-scrollbar scrollbar-hide ${
               isEditing ? 'bg-gray-800' : ''
             }`}
           />
@@ -127,6 +138,16 @@ export default function OutputPanel({
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </>
   );
 }

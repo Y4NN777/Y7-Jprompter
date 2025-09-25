@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useEffect } from 'react';
 import { Wand2, AlertCircle } from 'lucide-react';
 
 interface InputPanelProps {
@@ -25,32 +26,55 @@ export default function InputPanel({
   complexity,
   setComplexity,
 }: InputPanelProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInputPrompt(e.target.value);
+    // Auto-resize textarea
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+    }
+  };
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+    }
+  }, [inputPrompt]);
+
   return (
     <>
       <h2 className="text-2xl font-bold mb-4">Regular Prompt</h2>
 
       <div className="mb-4">
         <p className="text-sm text-gray-600 mb-2">Try an example:</p>
-        <div className="flex flex-wrap gap-2">
-          {examplePrompts.map((example, index) => (
-            <button
-              key={index}
-              onClick={() => setInputPrompt(example)}
-              className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition-colors"
-            >
-              {example.length > 50 ? `${example.substring(0, 50)}...` : example}
-            </button>
-          ))}
+        <div className="overflow-hidden">
+          <div className="flex gap-2 animate-scroll">
+            {[...examplePrompts, ...examplePrompts].map((example, index) => (
+              <button
+                key={index}
+                onClick={() => setInputPrompt(example)}
+                className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
+                title={example}
+              >
+                {example.length > 80 ? `${example.substring(0, 80)}...` : example}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       <textarea
+        ref={textareaRef}
         value={inputPrompt}
-        onChange={(e) => setInputPrompt(e.target.value)}
+        onChange={handleInputChange}
         placeholder="Enter your regular prompt here...
 
 Example: 'Analyze this sales data and give me insights about customer behavior patterns'"
-        className="w-full flex-grow p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+        className="w-full p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all min-h-[120px] scrollbar-hide"
+        style={{ height: 'auto' }}
       />
 
       <div className="flex justify-between items-center mt-2 mb-4">
@@ -113,6 +137,24 @@ Example: 'Analyze this sales data and give me insights about customer behavior p
           cursor: pointer;
           border: 2px solid white;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-scroll {
+          animation: scroll 20s linear infinite;
         }
       `}</style>
 
