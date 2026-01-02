@@ -1,0 +1,96 @@
+/**
+ * Light Theme - Clean & Modern
+ * Clean white base with refined blue accents
+ */
+
+:root[data-theme='light'] {
+  /* Background Colors */
+  --bg-primary: #D9D9D9;
+  --bg-secondary: #E5E5E5;
+  --bg-tertiary: #EFEFEF;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: rgba(255, 255, 255, 1);
+
+  /* Accent Colors - Blue */
+  --accent-primary: #2750ae;
+  --accent-primary-hover: #1e4090;
+  --accent-primary-glow: rgba(39, 80, 174, 0.15);
+  --accent-primary-subtle: rgba(39, 80, 174, 0.08);
+
+  /* Accent Colors - Light Blue */
+  --accent-secondary: #4a7ddb;
+  --accent-secondary-hover: #3a6bc5;
+  --accent-secondary-glow: rgba(74, 125, 219, 0.15);
+  --accent-secondary-subtle: rgba(74, 125, 219, 0.08);
+
+  /* Success */
+  --accent-success: #16a34a;
+  --accent-success-hover: #15803d;
+  --accent-success-glow: rgba(22, 163, 74, 0.15);
+  --accent-success-subtle: rgba(22, 163, 74, 0.08);
+
+  /* Status Colors */
+  --color-warning: #d97706;
+  --color-warning-subtle: rgba(217, 119, 6, 0.1);
+  --color-error: #dc2626;
+  --color-error-subtle: rgba(220, 38, 38, 0.1);
+
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+  --text-inverse: #ffffff;
+
+  /* Border Colors */
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-default: rgba(0, 0, 0, 0.1);
+  --border-strong: rgba(0, 0, 0, 0.15);
+  --border-glow: rgba(39, 80, 174, 0.3);
+  --border-focus: var(--accent-primary);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-bg-light: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-blur: blur(12px);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 12px var(--accent-primary-glow);
+  --shadow-card: 0 1px 8px rgba(0, 0, 0, 0.06);
+  --shadow-elevated: 0 2px 16px rgba(0, 0, 0, 0.08);
+
+  /* Background Gradient */
+  --gradient-bg: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+
+  /* Code Editor */
+  --code-bg: #1e293b;
+  --code-text: #e2e8f0;
+  --code-comment: #64748b;
+  --code-keyword: #2750ae;
+  --code-string: #4a7ddb;
+  --code-number: #d97706;
+
+  /* Scrollbar */
+  --scrollbar-track: rgba(0, 0, 0, 0.04);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.12);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.2);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Concept Graph Colors */
+  --node-persona: #2750ae;
+  --node-task: #4a7ddb;
+  --node-constraints: #dc2626;
+  --node-context: #16a34a;
+  --node-output: #d97706;
+  --node-examples: #0891b2;
+  --node-metadata: #64748b;
+}

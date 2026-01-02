@@ -1,28 +1,53 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
-import Script from 'next/script'
-import './globals.css'
+import type { Metadata, Viewport } from 'next';
+import { Inter, Outfit, JetBrains_Mono } from 'next/font/google';
+import Script from 'next/script';
+import { Providers } from './providers';
+import './globals.css';
 
-const inter = Inter({ 
+// Font configurations
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
+  variable: '--font-inter',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-outfit',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-mono',
 });
 
 export const metadata: Metadata = {
-  title: 'Y7-Jprompter - Master JSON Prompting',
-  description: 'Transform regular prompts into powerful structured JSON prompts that get better AI results. Built with Next.js and Google Gemini AI.',
-  keywords: ['AI prompts', 'JSON prompting', 'prompt engineering', 'Gemini AI', 'structured prompts'],
-  authors: [{ name: 'PromptForge Team' }],
+  title: 'Y7-Jprompter - Transform Prompts to JSON',
+  description:
+    'Transform regular prompts into powerful structured JSON prompts that get better AI results. Built with Next.js and Google Gemini AI.',
+  keywords: [
+    'AI prompts',
+    'JSON prompting',
+    'prompt engineering',
+    'Gemini AI',
+    'structured prompts',
+    'prompt visualization',
+  ],
+  authors: [{ name: 'Y7 Labs' }],
   openGraph: {
-    title: 'Y7-Jprompter - Master JSON Prompting',
-    description: 'Transform regular prompts into powerful structured JSON prompts',
+    title: 'Y7-Jprompter - Transform Prompts to JSON',
+    description:
+      'Transform regular prompts into powerful structured JSON prompts with visual concept graphs',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Y7-Jprompter - Master JSON Prompting',
-    description: 'Transform regular prompts into powerful structured JSON prompts',
+    title: 'Y7-Jprompter - Transform Prompts to JSON',
+    description:
+      'Transform regular prompts into powerful structured JSON prompts',
   },
   robots: {
     index: true,
@@ -31,21 +56,28 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.svg',
   },
-}
+};
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#2563eb',
-}
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#2563eb' },
+    { media: '(prefers-color-scheme: dark)', color: '#00d9ff' },
+  ],
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html
+      lang="en"
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Google Analytics */}
         <Script
@@ -61,11 +93,18 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${inter.className} antialiased`}>
-        <main className="min-h-screen">
+      <body
+        className={`${inter.className} antialiased`}
+        style={{
+          fontFamily:
+            'var(--font-inter), ui-sans-serif, system-ui, sans-serif',
+        }}
+        suppressHydrationWarning
+      >
+        <Providers>
           {children}
-        </main>
+        </Providers>
       </body>
     </html>
-  )
+  );
 }

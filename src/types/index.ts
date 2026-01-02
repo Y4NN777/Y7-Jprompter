@@ -1,3 +1,9 @@
+// Re-export from specialized type files
+export * from './concept';
+export * from './prompt';
+export * from './feedback';
+
+// Template types (existing)
 export interface Template {
   id: string;
   name: string;
@@ -16,10 +22,6 @@ export interface ConversionResult {
 export interface TemplateCategory {
   [key: string]: Template[];
 }
-
-// Enhanced types for better type safety
-// Note: Keys are now multilingual, so using Record for flexibility
-export type JSONPromptStructure = Record<string, unknown>;
 
 export interface ConversionError {
   message: string;

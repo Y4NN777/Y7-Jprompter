@@ -1,0 +1,102 @@
+/**
+ * Dark Theme - Vibrant & Dynamic
+ * Deep space-like background with electric blue accents and rich depth
+ */
+
+:root[data-theme='dark'] {
+  /* Background Colors - Deeper with blue undertones */
+  --bg-primary: #050810;
+  --bg-secondary: #0c1220;
+  --bg-tertiary: #141c2e;
+  --bg-card: rgba(20, 28, 46, 0.9);
+  --bg-card-hover: rgba(25, 35, 55, 0.95);
+
+  /* Gradient backgrounds for depth */
+  --gradient-bg: linear-gradient(135deg, #050810 0%, #0c1424 50%, #0a1018 100%);
+  --gradient-card: linear-gradient(145deg, rgba(20, 28, 46, 0.9) 0%, rgba(15, 22, 38, 0.95) 100%);
+
+  /* Accent Colors - Vibrant Blue with stronger presence */
+  --accent-primary: #3366cc;
+  --accent-primary-hover: #2750ae;
+  --accent-primary-glow: rgba(51, 102, 204, 0.4);
+  --accent-primary-subtle: rgba(51, 102, 204, 0.15);
+  --accent-primary-intense: #4488ee;
+
+  /* Accent Colors - Electric Light Blue */
+  --accent-secondary: #5c9aff;
+  --accent-secondary-hover: #4a88ee;
+  --accent-secondary-glow: rgba(92, 154, 255, 0.35);
+  --accent-secondary-subtle: rgba(92, 154, 255, 0.12);
+
+  /* Success - Vibrant Emerald */
+  --accent-success: #10d87c;
+  --accent-success-hover: #0cc06a;
+  --accent-success-glow: rgba(16, 216, 124, 0.35);
+  --accent-success-subtle: rgba(16, 216, 124, 0.12);
+
+  /* Status Colors - Brighter for visibility */
+  --color-warning: #ffaa22;
+  --color-warning-subtle: rgba(255, 170, 34, 0.15);
+  --color-error: #ff5555;
+  --color-error-subtle: rgba(255, 85, 85, 0.15);
+
+  /* Text Colors - Better contrast */
+  --text-primary: #f0f4f8;
+  --text-secondary: #a0b0c8;
+  --text-muted: #6880a0;
+  --text-disabled: #404860;
+  --text-inverse: #0a0e17;
+
+  /* Border Colors - More visible with blue tint */
+  --border-subtle: rgba(92, 154, 255, 0.08);
+  --border-default: rgba(92, 154, 255, 0.15);
+  --border-strong: rgba(92, 154, 255, 0.25);
+  --border-glow: rgba(51, 102, 204, 0.5);
+  --border-focus: var(--accent-primary);
+
+  /* Glassmorphism - Richer with blue tint */
+  --glass-bg: rgba(8, 12, 24, 0.9);
+  --glass-bg-light: rgba(20, 28, 46, 0.7);
+  --glass-border: rgba(92, 154, 255, 0.2);
+  --glass-blur: blur(16px);
+
+  /* Shadows - Deeper with blue ambient */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 1px rgba(51, 102, 204, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 4px rgba(51, 102, 204, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 8px rgba(51, 102, 204, 0.15);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 16px rgba(51, 102, 204, 0.1);
+  --shadow-glow: 0 0 20px var(--accent-primary-glow), 0 0 40px rgba(51, 102, 204, 0.15);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 1px rgba(92, 154, 255, 0.1);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 8px rgba(51, 102, 204, 0.15);
+
+  /* Inner glows for depth */
+  --inner-glow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --inner-glow-accent: inset 0 1px 0 rgba(92, 154, 255, 0.1);
+
+  /* Code Editor - Richer colors */
+  --code-bg: #080c14;
+  --code-text: #e8f0f8;
+  --code-comment: #5a7090;
+  --code-keyword: #5c9aff;
+  --code-string: #10d87c;
+  --code-number: #ffaa22;
+
+  /* Scrollbar - Visible but subtle */
+  --scrollbar-track: rgba(92, 154, 255, 0.05);
+  --scrollbar-thumb: rgba(92, 154, 255, 0.2);
+  --scrollbar-thumb-hover: rgba(92, 154, 255, 0.35);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Concept Graph Colors - Vibrant spectrum */
+  --node-persona: #3366cc;
+  --node-task: #5c9aff;
+  --node-constraints: #ff5555;
+  --node-context: #10d87c;
+  --node-output: #ffaa22;
+  --node-examples: #00c8d8;
+  --node-metadata: #6880a0;
+}
