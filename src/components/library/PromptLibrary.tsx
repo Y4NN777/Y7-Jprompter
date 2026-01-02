@@ -111,14 +111,16 @@ export function PromptLibrary({ isOpen, onClose }: PromptLibraryProps) {
   if (!isOpen) return null;
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
-        onClick={onClose}
-      >
+    <>
+      <AnimatePresence>
+        <motion.div
+          key="prompt-library-modal"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          onClick={onClose}
+        >
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -180,9 +182,9 @@ export function PromptLibrary({ isOpen, onClose }: PromptLibraryProps) {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-xs text-[var(--text-muted)]">Filter:</span>
-                {tags.map((tag) => (
+                {tags.map((tag, index) => (
                   <button
-                    key={tag}
+                    key={`${tag}-${index}`}
                     onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
                     className={`px-2 py-1 text-xs rounded-full transition-colors ${
                       selectedTag === tag
@@ -288,6 +290,7 @@ export function PromptLibrary({ isOpen, onClose }: PromptLibraryProps) {
           )}
         </motion.div>
       </motion.div>
+      </AnimatePresence>
 
       {/* Confirm Clear Modal */}
       <ConfirmModal
@@ -299,6 +302,6 @@ export function PromptLibrary({ isOpen, onClose }: PromptLibraryProps) {
         confirmText="Clear All"
         variant="danger"
       />
-    </AnimatePresence>
+    </>
   );
 }

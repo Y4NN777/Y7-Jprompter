@@ -122,7 +122,7 @@ export async function rateLimit(
       burstResetTime: now + BURST_WINDOW_MS,
       dailyCount: 1,
       dailyResetTime: now + DAILY_WINDOW_MS,
-      fingerprint,
+      fingerprint: fingerprint ?? undefined,
     };
     rateLimitMap.set(identifier, record);
 

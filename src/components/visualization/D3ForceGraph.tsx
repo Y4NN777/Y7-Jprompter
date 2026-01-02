@@ -3,14 +3,13 @@
 import { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import * as d3 from 'd3';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ZoomIn, ZoomOut, Maximize2, RotateCcw, PanelRightOpen } from 'lucide-react';
+import { PanelRightOpen } from 'lucide-react';
 import { NodeDetailsPanel } from './NodeDetailsPanel';
 import { GraphControls, type LayoutType } from './GraphControls';
 import {
   calculateRadialLayout,
   calculateHierarchyLayout,
   calculateClusterLayout,
-  type LayoutNode,
 } from './layouts';
 import type { ConceptNode, ConceptGraph, ConceptCategory } from '@/types';
 
@@ -492,7 +491,7 @@ export function D3ForceGraph({
         className="w-full h-full bg-[var(--bg-secondary)] rounded-lg"
       />
 
-      {/* Graph Controls - Layout Switcher & Filters */}
+      {/* Graph Controls - Unified floating toolbar */}
       {!hideControls && (
         <GraphControls
           currentLayout={currentLayout}
@@ -502,41 +501,11 @@ export function D3ForceGraph({
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           nodeCount={filteredGraph?.nodes.length || 0}
+          onZoomIn={() => handleZoom((transform?.k || 1) * 1.3)}
+          onZoomOut={() => handleZoom((transform?.k || 1) / 1.3)}
+          onFitToView={handleFitToView}
+          onReset={handleReset}
         />
-      )}
-
-      {/* Zoom Controls */}
-      {!hideControls && (
-        <div className="absolute top-4 right-4 flex flex-col gap-2">
-        <button
-          onClick={() => handleZoom((transform?.k || 1) * 1.3)}
-          className="btn-ghost p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)]"
-          title="Zoom in"
-        >
-          <ZoomIn className="h-4 w-4" />
-        </button>
-        <button
-          onClick={() => handleZoom((transform?.k || 1) / 1.3)}
-          className="btn-ghost p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)]"
-          title="Zoom out"
-        >
-          <ZoomOut className="h-4 w-4" />
-        </button>
-        <button
-          onClick={handleFitToView}
-          className="btn-ghost p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)]"
-          title="Fit to view"
-        >
-          <Maximize2 className="h-4 w-4" />
-        </button>
-        <button
-          onClick={handleReset}
-          className="btn-ghost p-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-subtle)]"
-          title="Reset view"
-        >
-          <RotateCcw className="h-4 w-4" />
-        </button>
-      </div>
       )}
 
       {/* Tooltip - repositioned to avoid controls */}

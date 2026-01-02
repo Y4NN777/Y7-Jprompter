@@ -441,7 +441,7 @@ export function createSpring(stiffness = 400, damping = 30): Transition {
  */
 export function createTween(
   duration = 0.3,
-  ease: string | number[] = 'easeOut'
+  ease: 'linear' | 'easeIn' | 'easeOut' | 'easeInOut' | 'circIn' | 'circOut' | 'circInOut' | 'backIn' | 'backOut' | 'backInOut' | 'anticipate' | number[] = 'easeOut'
 ): Transition {
   return {
     type: 'tween',

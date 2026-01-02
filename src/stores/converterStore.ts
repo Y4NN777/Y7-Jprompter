@@ -264,6 +264,7 @@ export const useConverterStore = create<ConverterState>()(
             axes: { clarity: 80, specificity: 75, structure: 85, actionability: 70, creativity: 80 },
             suggestions: [],
             skillsImproved: [],
+            timestamp: new Date(),
           });
         } catch (error) {
           const message =

@@ -133,14 +133,14 @@ function extractJSON(text: string): unknown {
   console.log('[extractJSON] Processing response (length:', text.length, ')');
   
   // Strategy 1: Remove markdown code blocks
-  let cleanedText = text.replace(/```(?:json)?\s*([\s\S]*?)```/g, '$1').trim();
+  const cleanedText = text.replace(/```(?:json)?\s*([\s\S]*?)```/g, '$1').trim();
   
   // Strategy 2: Try to parse the entire cleaned text
   try {
     const parsed = JSON.parse(cleanedText);
     console.log('[extractJSON] Success: Direct parse');
     return parsed;
-  } catch (e1) {
+  } catch {
     // Strategy 3: Find JSON object with balanced braces
     const jsonMatches = cleanedText.matchAll(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g);
     const matches = Array.from(jsonMatches);
@@ -150,7 +150,7 @@ function extractJSON(text: string): unknown {
         const parsed = JSON.parse(match[0]);
         console.log('[extractJSON] Success: Pattern match');
         return parsed;
-      } catch (e2) {
+      } catch {
         continue;
       }
     }
@@ -158,7 +158,7 @@ function extractJSON(text: string): unknown {
     // Strategy 4: Try to find any object-like structure and fix common issues
     const simpleMatch = cleanedText.match(/\{[\s\S]*\}/);
     if (simpleMatch) {
-      let jsonStr = simpleMatch[0]
+      const jsonStr = simpleMatch[0]
         .replace(/([{,])\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":') // Add quotes to keys
         .replace(/:\s*'([^']*)'/g, ':"$1"') // Replace single quotes with double
         .replace(/,\s*([}\]])/g, '$1'); // Remove trailing commas
@@ -294,42 +294,6 @@ export async function convertPromptToJSON(
       throw error;
     }
     throw new Error('Failed to convert prompt');
-  }
-}
-
-/**
- * Generate explanation for the conversion
- */
-async function generateExplanation(
-  originalPrompt: string,
-  jsonPrompt: Record<string, unknown>,
-  language: 'en' | 'fr'
-): Promise<string> {
-  const genAI = getGeminiClient();
-  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
-
-  const prompt = `Compare this original prompt with its JSON structure and explain why the JSON version is better for AI interactions.
-
-Original: "${originalPrompt}"
-
-JSON Structure: ${JSON.stringify(jsonPrompt, null, 2)}
-
-Provide 3-4 bullet points explaining:
-- How the structure improves clarity
-- What ambiguities were resolved
-- How this helps AI understand the task better
-
-Keep it concise and helpful. Use ${language === 'fr' ? 'French' : 'English'}.`;
-
-  try {
-    const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: GENERATION_CONFIGS.explanation,
-    });
-
-    return result.response.text();
-  } catch {
-    return 'The JSON structure provides clearer task definition and requirements for the AI.';
   }
 }
 

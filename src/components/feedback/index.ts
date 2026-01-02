@@ -3,4 +3,5 @@
  * AI-powered prompt analysis and skill tracking
  */
 
-export { RadarChart, FeedbackPanel } from './RadarChart';
+export { RadarChart } from './RadarChart';
+export { FeedbackPanel } from './FeedbackPanel';

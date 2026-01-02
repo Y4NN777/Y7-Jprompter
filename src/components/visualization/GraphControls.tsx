@@ -1,8 +1,21 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Network, Circle, GitBranch, Boxes, Filter, Search, X } from 'lucide-react';
-import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Network,
+  Circle,
+  GitBranch,
+  Boxes,
+  Filter,
+  Search,
+  X,
+  ZoomIn,
+  ZoomOut,
+  Maximize2,
+  RotateCcw,
+  ChevronUp
+} from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 import type { ConceptCategory } from '@/types';
 
 export type LayoutType = 'force' | 'radial' | 'hierarchy' | 'cluster';
@@ -15,23 +28,25 @@ interface GraphControlsProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   nodeCount: number;
+  onZoomIn?: () => void;
+  onZoomOut?: () => void;
+  onFitToView?: () => void;
+  onReset?: () => void;
 }
 
-const LAYOUTS: { id: LayoutType; icon: React.ReactNode; label: string; description: string }[] = [
-  { id: 'force', icon: <Network className="w-4 h-4" />, label: 'Force', description: 'Organic clustering' },
-  { id: 'radial', icon: <Circle className="w-4 h-4" />, label: 'Radial', description: 'Concentric layers' },
-  { id: 'hierarchy', icon: <GitBranch className="w-4 h-4" />, label: 'Tree', description: 'Top-down flow' },
-  { id: 'cluster', icon: <Boxes className="w-4 h-4" />, label: 'Cluster', description: 'By category' },
+const LAYOUTS: { id: LayoutType; icon: React.ReactNode; label: string }[] = [
+  { id: 'force', icon: <Network className="w-4 h-4" />, label: 'Force' },
+  { id: 'radial', icon: <Circle className="w-4 h-4" />, label: 'Radial' },
+  { id: 'hierarchy', icon: <GitBranch className="w-4 h-4" />, label: 'Tree' },
+  { id: 'cluster', icon: <Boxes className="w-4 h-4" />, label: 'Cluster' },
 ];
 
 const CATEGORIES: { id: ConceptCategory; color: string; label: string }[] = [
-  { id: 'persona', color: 'var(--node-persona)', label: 'Persona' },
   { id: 'task', color: 'var(--node-task)', label: 'Task' },
-  { id: 'constraints', color: 'var(--node-constraints)', label: 'Constraints' },
   { id: 'context', color: 'var(--node-context)', label: 'Context' },
   { id: 'output', color: 'var(--node-output)', label: 'Output' },
+  { id: 'constraints', color: 'var(--node-constraints)', label: 'Constraints' },
   { id: 'examples', color: 'var(--node-examples)', label: 'Examples' },
-  { id: 'metadata', color: 'var(--node-metadata)', label: 'Metadata' },
 ];
 
 export function GraphControls({
@@ -42,139 +57,265 @@ export function GraphControls({
   searchQuery,
   onSearchChange,
   nodeCount,
+  onZoomIn,
+  onZoomOut,
+  onFitToView,
+  onReset,
 }: GraphControlsProps) {
   const [showFilters, setShowFilters] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto-hide controls after 4 seconds of inactivity
+  useEffect(() => {
+    if (isHovered || showFilters || showSearch) return;
+
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [isHovered, showFilters, showSearch, currentLayout]);
+
+  // Show controls on any interaction
+  const handleMouseMove = useCallback(() => {
+    setIsVisible(true);
+  }, []);
+
+  const activeFiltersCount = categoryFilters.size;
 
   return (
-    <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-      {/* Layout Switcher */}
-      <div className="flex gap-1 p-1 bg-[var(--bg-card)] rounded-xl border border-[var(--border-subtle)] shadow-lg">
-        {LAYOUTS.map((layout) => (
+    <>
+      {/* Mouse move detector for the entire graph area */}
+      <div
+        className="absolute inset-0 z-0"
+        onMouseMove={handleMouseMove}
+        onTouchStart={handleMouseMove}
+      />
+
+      {/* Collapsed state indicator - shows when toolbar is hidden */}
+      <AnimatePresence>
+        {!isVisible && (
           <motion.button
-            key={layout.id}
-            onClick={() => onLayoutChange(layout.id)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`
-              relative p-2.5 rounded-lg transition-colors
-              ${currentLayout === layout.id
-                ? 'text-white'
-                : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
-              }
-            `}
-            title={`${layout.label}: ${layout.description}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            onClick={() => setIsVisible(true)}
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 bg-[var(--bg-card)]/80 backdrop-blur-sm rounded-full border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-2"
           >
-            {currentLayout === layout.id && (
-              <motion.div
-                layoutId="activeLayout"
-                className="absolute inset-0 bg-[var(--accent-primary)] rounded-lg"
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              />
-            )}
-            <span className="relative z-10">{layout.icon}</span>
+            <ChevronUp className="w-4 h-4" />
+            <span className="text-xs font-medium">Show Controls</span>
           </motion.button>
-        ))}
-      </div>
+        )}
+      </AnimatePresence>
 
-      {/* Filter Toggle */}
-      <div className="flex gap-2">
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className={`
-            flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors
-            ${showFilters
-              ? 'bg-[var(--accent-primary)] text-white border-[var(--accent-primary)]'
-              : 'bg-[var(--bg-card)] text-[var(--text-secondary)] border-[var(--border-subtle)] hover:bg-[var(--bg-secondary)]'
-            }
-          `}
-        >
-          <Filter className="w-4 h-4" />
-          <span className="text-xs font-medium">Filter</span>
-          {categoryFilters.size > 0 && categoryFilters.size < 7 && (
-            <span className="px-1.5 py-0.5 text-xs bg-white/20 rounded-full">
-              {7 - categoryFilters.size}
-            </span>
-          )}
-        </button>
+      {/* Main Floating Toolbar */}
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20"
+          >
+            <div className="flex items-center gap-1 p-1.5 bg-[var(--bg-card)]/95 backdrop-blur-xl rounded-2xl border border-[var(--border-subtle)] shadow-2xl">
 
-        {/* Node count badge */}
-        <div className="px-3 py-2 bg-[var(--bg-card)] rounded-lg border border-[var(--border-subtle)] text-xs text-[var(--text-muted)]">
-          {nodeCount} nodes
-        </div>
-      </div>
-
-      {/* Filters Panel */}
-      {showFilters && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="p-3 bg-[var(--bg-card)] rounded-xl border border-[var(--border-subtle)] shadow-lg"
-        >
-          {/* Search */}
-          <div className="relative mb-3">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Search nodes..."
-              className="w-full pl-9 pr-8 py-2 text-sm bg-[var(--bg-secondary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--accent-primary)] focus:outline-none"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => onSearchChange('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+              {/* Search Toggle */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setShowSearch(!showSearch);
+                  setShowFilters(false);
+                }}
+                className={`p-2.5 rounded-xl transition-colors ${
+                  showSearch
+                    ? 'bg-[var(--accent-primary)] text-white'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                }`}
+                title="Search nodes"
               >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
+                <Search className="w-4 h-4" />
+              </motion.button>
 
-          {/* Category Filters */}
-          <p className="text-xs font-medium text-[var(--text-muted)] mb-2">Categories</p>
-          <div className="flex flex-wrap gap-1.5">
-            {CATEGORIES.map((cat) => {
-              const isHidden = categoryFilters.has(cat.id);
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => onCategoryFilterToggle(cat.id)}
-                  className={`
-                    flex items-center gap-1.5 px-2 py-1 rounded-md text-xs transition-all
-                    ${isHidden
-                      ? 'bg-[var(--bg-secondary)] text-[var(--text-muted)] opacity-50'
-                      : 'bg-[var(--bg-secondary)] text-[var(--text-primary)]'
-                    }
-                  `}
+              {/* Divider */}
+              <div className="w-px h-6 bg-[var(--border-subtle)] mx-1" />
+
+              {/* Layout Buttons */}
+              {LAYOUTS.map((layout) => (
+                <motion.button
+                  key={layout.id}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => onLayoutChange(layout.id)}
+                  className={`relative p-2.5 rounded-xl transition-colors ${
+                    currentLayout === layout.id
+                      ? 'text-white'
+                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                  }`}
+                  title={layout.label}
                 >
-                  <div
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: isHidden ? 'var(--text-muted)' : cat.color }}
-                  />
-                  {cat.label}
-                </button>
-              );
-            })}
-          </div>
+                  {currentLayout === layout.id && (
+                    <motion.div
+                      layoutId="activeLayout"
+                      className="absolute inset-0 bg-[var(--accent-primary)] rounded-xl"
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{layout.icon}</span>
+                </motion.button>
+              ))}
 
-          {/* Quick actions */}
-          <div className="flex gap-2 mt-3 pt-3 border-t border-[var(--border-subtle)]">
-            <button
-              onClick={() => CATEGORIES.forEach(c => categoryFilters.has(c.id) && onCategoryFilterToggle(c.id))}
-              className="flex-1 px-2 py-1.5 text-xs text-[var(--text-secondary)] bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] rounded-md transition-colors"
-            >
-              Show All
-            </button>
-            <button
-              onClick={() => CATEGORIES.forEach(c => !categoryFilters.has(c.id) && onCategoryFilterToggle(c.id))}
-              className="flex-1 px-2 py-1.5 text-xs text-[var(--text-secondary)] bg-[var(--bg-secondary)] hover:bg-[var(--bg-tertiary)] rounded-md transition-colors"
-            >
-              Hide All
-            </button>
-          </div>
-        </motion.div>
-      )}
-    </div>
+              {/* Divider */}
+              <div className="w-px h-6 bg-[var(--border-subtle)] mx-1" />
+
+              {/* Filter Toggle */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setShowFilters(!showFilters);
+                  setShowSearch(false);
+                }}
+                className={`relative p-2.5 rounded-xl transition-colors ${
+                  showFilters
+                    ? 'bg-[var(--accent-primary)] text-white'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                }`}
+                title="Filter categories"
+              >
+                <Filter className="w-4 h-4" />
+                {activeFiltersCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--accent-secondary)] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {activeFiltersCount}
+                  </span>
+                )}
+              </motion.button>
+
+              {/* Divider */}
+              <div className="w-px h-6 bg-[var(--border-subtle)] mx-1" />
+
+              {/* Zoom Controls */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onZoomOut}
+                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                title="Zoom out"
+              >
+                <ZoomOut className="w-4 h-4" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onZoomIn}
+                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                title="Zoom in"
+              >
+                <ZoomIn className="w-4 h-4" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onFitToView}
+                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                title="Fit to view"
+              >
+                <Maximize2 className="w-4 h-4" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onReset}
+                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                title="Reset view"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </motion.button>
+
+              {/* Node Count Badge */}
+              <div className="px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] bg-[var(--bg-secondary)] rounded-lg ml-1">
+                {nodeCount}
+              </div>
+            </div>
+
+            {/* Search Panel - Expands above toolbar */}
+            <AnimatePresence>
+              {showSearch && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64"
+                >
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => onSearchChange(e.target.value)}
+                      placeholder="Search nodes..."
+                      autoFocus
+                      className="w-full pl-10 pr-8 py-3 text-sm bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--accent-primary)] focus:outline-none shadow-lg"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => onSearchChange('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Filter Panel - Expands above toolbar */}
+            <AnimatePresence>
+              {showFilters && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2"
+                >
+                  <div className="p-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl shadow-lg">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {CATEGORIES.map((cat) => {
+                        const isHidden = categoryFilters.has(cat.id);
+                        return (
+                          <motion.button
+                            key={cat.id}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => onCategoryFilterToggle(cat.id)}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                              isHidden
+                                ? 'bg-[var(--bg-secondary)] text-[var(--text-muted)] opacity-50'
+                                : 'bg-[var(--bg-secondary)] text-[var(--text-primary)]'
+                            }`}
+                          >
+                            <div
+                              className="w-2.5 h-2.5 rounded-full transition-colors"
+                              style={{ backgroundColor: isHidden ? 'var(--text-muted)' : cat.color }}
+                            />
+                            {cat.label}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
