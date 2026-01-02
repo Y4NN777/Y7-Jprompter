@@ -15,7 +15,6 @@ import { OutputPanel } from '@/components/converter/OutputPanel';
 import { motion } from 'framer-motion';
 import { ArrowRight, Zap, Eye, FolderOpen, BarChart3, FileJson, Key, HelpCircle, ChevronDown, Settings, Check, Lightbulb } from 'lucide-react';
 import Image from 'next/image';
-import { OnboardingTour } from '@/components/features/OnboardingTour';
 import { PromptLibrary } from '@/components/library/PromptLibrary';
 import { FeedbackPanel } from '@/components/feedback/FeedbackPanel';
 import { HistoryView, TemplatesView, SettingsView, AboutView } from '@/components/views';
@@ -118,9 +117,6 @@ export default function Home() {
             >
               <BarChart3 className="w-5 h-5" />
             </button>
-
-            {/* Onboarding Tour - Converter only */}
-            {currentView === 'converter' && <OnboardingTour />}
 
             <ThemeToggle />
           </div>
