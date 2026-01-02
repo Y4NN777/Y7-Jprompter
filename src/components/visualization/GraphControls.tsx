@@ -85,6 +85,15 @@ export function GraphControls({
 
   const activeFiltersCount = categoryFilters.size;
 
+  // Get current layout index for cycling
+  const currentLayoutIndex = LAYOUTS.findIndex(l => l.id === currentLayout);
+
+  // Cycle to next layout (for mobile)
+  const cycleLayout = () => {
+    const nextIndex = (currentLayoutIndex + 1) % LAYOUTS.length;
+    onLayoutChange(LAYOUTS[nextIndex].id);
+  };
+
   return (
     <>
       {/* Mouse move detector for the entire graph area */}
@@ -110,7 +119,7 @@ export function GraphControls({
         )}
       </AnimatePresence>
 
-      {/* Main Floating Toolbar */}
+      {/* Mobile Floating Toolbar - Simplified */}
       <AnimatePresence>
         {isVisible && (
           <motion.div
@@ -120,7 +129,74 @@ export function GraphControls({
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 md:hidden"
+          >
+            <div className="flex items-center gap-2 p-2 bg-[var(--bg-card)]/95 backdrop-blur-xl rounded-2xl border border-[var(--border-subtle)] shadow-2xl">
+              {/* Layout Cycle Button */}
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={cycleLayout}
+                className="relative p-3 rounded-xl bg-[var(--accent-primary)] text-white"
+                title={`Layout: ${LAYOUTS[currentLayoutIndex].label}`}
+              >
+                {LAYOUTS[currentLayoutIndex].icon}
+              </motion.button>
+
+              {/* Zoom Out */}
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={onZoomOut}
+                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
+                title="Zoom out"
+              >
+                <ZoomOut className="w-5 h-5" />
+              </motion.button>
+
+              {/* Zoom In */}
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={onZoomIn}
+                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
+                title="Zoom in"
+              >
+                <ZoomIn className="w-5 h-5" />
+              </motion.button>
+
+              {/* Fit to View */}
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={onFitToView}
+                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
+                title="Fit to view"
+              >
+                <Maximize2 className="w-5 h-5" />
+              </motion.button>
+
+              {/* Reset */}
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={onReset}
+                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
+                title="Reset view"
+              >
+                <RotateCcw className="w-5 h-5" />
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Floating Toolbar - Full controls */}
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 hidden md:block"
           >
             <div className="flex items-center gap-1 p-1.5 bg-[var(--bg-card)]/95 backdrop-blur-xl rounded-2xl border border-[var(--border-subtle)] shadow-2xl">
 

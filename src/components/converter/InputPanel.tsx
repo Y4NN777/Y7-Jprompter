@@ -118,8 +118,8 @@ export function InputPanel({ className = '' }: InputPanelProps) {
 
   return (
     <div className={`h-full flex flex-col ${className}`}>
-      {/* Scrollable content area */}
-      <div className="flex-1 flex flex-col gap-4 overflow-y-auto min-h-0">
+      {/* Content area - no overflow here, parent handles scroll */}
+      <div className="flex-1 flex flex-col gap-4 min-h-0">
         {/* Input Card with subtle focus state */}
         <motion.div
           className="flex flex-col bg-[var(--bg-card)] border rounded-xl p-5 transition-all duration-200"

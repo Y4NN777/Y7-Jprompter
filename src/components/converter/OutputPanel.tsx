@@ -17,6 +17,7 @@ import {
   Maximize2,
   Eye,
   EyeOff,
+  Share2,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useConverterStore } from '@/stores/converterStore';
@@ -244,8 +245,8 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
           ))}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-2">
+        {/* Action Buttons - Hidden on mobile, shown on desktop */}
+        <div className="hidden md:flex items-center gap-2">
           {/* Explain button */}
           {explanation && (
             <button
@@ -421,16 +422,80 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
         )}
       </div>
 
-      {/* Copy success toast */}
+      {/* Mobile Action Bar - Sticky bottom bar for touch-friendly controls */}
+      <div className="md:hidden flex-shrink-0 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] p-3">
+        <div className="flex items-center justify-around gap-2">
+          {/* Copy - Primary action */}
+          <button
+            onClick={copyToClipboard}
+            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--accent-primary)] text-white active:scale-95 transition-transform"
+          >
+            {copySuccess ? (
+              <Check className="h-5 w-5" />
+            ) : (
+              <Copy className="h-5 w-5" />
+            )}
+            <span className="text-xs font-medium">{copySuccess ? 'Copied!' : 'Copy'}</span>
+          </button>
+
+          {/* Download */}
+          <button
+            onClick={downloadJSON}
+            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
+          >
+            {downloadSuccess ? (
+              <Check className="h-5 w-5 text-[var(--accent-success)]" />
+            ) : (
+              <Download className="h-5 w-5" />
+            )}
+            <span className="text-xs font-medium">{downloadSuccess ? 'Saved!' : 'Download'}</span>
+          </button>
+
+          {/* Edit */}
+          <button
+            onClick={isEditing ? saveEdit : startEditing}
+            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
+          >
+            {isEditing ? (
+              <Save className="h-5 w-5 text-[var(--accent-success)]" />
+            ) : (
+              <Edit3 className="h-5 w-5" />
+            )}
+            <span className="text-xs font-medium">{isEditing ? 'Save' : 'Edit'}</span>
+          </button>
+
+          {/* Refine */}
+          <button
+            onClick={refineJson}
+            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
+          >
+            <Wand2 className="h-5 w-5" />
+            <span className="text-xs font-medium">Refine</span>
+          </button>
+
+          {/* Graph - Only if graph is available */}
+          {conceptGraph && (
+            <button
+              onClick={() => setShowFullscreenGraph(true)}
+              className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
+            >
+              <Maximize2 className="h-5 w-5" />
+              <span className="text-xs font-medium">Graph</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Copy success toast - Desktop only */}
       <AnimatePresence>
         {copySuccess && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2
+            className="hidden md:flex absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2
               bg-[var(--accent-success)] text-[var(--text-inverse)]
-              rounded-lg shadow-lg flex items-center gap-2"
+              rounded-lg shadow-lg items-center gap-2"
           >
             <Check className="h-4 w-4" />
             <span className="text-sm font-medium">Copied to clipboard!</span>

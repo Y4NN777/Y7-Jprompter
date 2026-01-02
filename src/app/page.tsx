@@ -13,7 +13,7 @@ import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { InputPanel } from '@/components/converter/InputPanel';
 import { OutputPanel } from '@/components/converter/OutputPanel';
 import { motion } from 'framer-motion';
-import { ArrowRight, Zap, Eye, FolderOpen, BarChart3, FileJson, Key, HelpCircle, ChevronDown, Settings, Check, Lightbulb } from 'lucide-react';
+import { ArrowRight, Zap, Eye, FolderOpen, BarChart3, FileJson, Key, HelpCircle, ChevronDown, Settings, Check, Lightbulb, PenLine, Code } from 'lucide-react';
 import Image from 'next/image';
 import { PromptLibrary } from '@/components/library/PromptLibrary';
 import { FeedbackPanel } from '@/components/feedback/FeedbackPanel';
@@ -33,6 +33,7 @@ export default function Home() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [mobileActiveTab, setMobileActiveTab] = useState<'input' | 'output'>('input');
 
   // Handle responsive sidebar margin (fixes hydration issue)
   useEffect(() => {
@@ -577,51 +578,66 @@ export default function Home() {
                   </PanelGroup>
                 </section>
 
-                {/* Mobile: Stacked Layout */}
-                <section className="lg:hidden flex flex-col gap-3 flex-1 min-h-0">
-                  {/* Input Panel - Takes most space */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl flex-1 min-h-0"
-                    data-tour="input-panel"
-                  >
-                    <div className="p-4 h-full overflow-auto">
-                      <InputPanel />
-                    </div>
-                  </motion.div>
-
-                  {/* Output Panel */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className={`bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl ${
-                      jsonOutput ? 'flex-1 min-h-[250px]' : 'h-[150px] flex-shrink-0'
-                    }`}
-                    data-tour="output-panel"
-                  >
-                    <OutputPanel />
-                  </motion.div>
-
-                  {/* Compact Stats Strip - Only when no output */}
-                  {!jsonOutput && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="flex gap-2 p-2 bg-[var(--bg-card)] rounded-xl border border-[var(--border-subtle)] flex-shrink-0"
+                {/* Mobile: Tab-Based Layout */}
+                <section className="lg:hidden flex flex-col flex-1 min-h-0">
+                  {/* Mobile Tab Switcher */}
+                  <div className="flex-shrink-0 flex gap-2 p-1 bg-[var(--bg-tertiary)] rounded-xl mb-3">
+                    <button
+                      onClick={() => setMobileActiveTab('input')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all ${
+                        mobileActiveTab === 'input'
+                          ? 'bg-[var(--accent-primary)] text-white shadow-md'
+                          : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                      }`}
                     >
-                      <div className="flex-1 flex items-center gap-2 px-3 py-2 bg-[var(--bg-secondary)] rounded-lg">
-                        <Zap className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-                        <span className="text-xs text-[var(--text-muted)]">{skills.totalConversions} converts</span>
-                      </div>
-                      <div className="flex-1 flex items-center gap-2 px-3 py-2 bg-[var(--bg-secondary)] rounded-lg">
-                        <Lightbulb className="w-3.5 h-3.5 text-[var(--accent-warning)]" />
-                        <span className="text-xs text-[var(--text-muted)] truncate">Tip: Ctrl+Enter</span>
-                      </div>
-                    </motion.div>
-                  )}
+                      <PenLine className="w-4 h-4" />
+                      <span>Input</span>
+                    </button>
+                    <button
+                      onClick={() => setMobileActiveTab('output')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-all relative ${
+                        mobileActiveTab === 'output'
+                          ? 'bg-[var(--accent-primary)] text-white shadow-md'
+                          : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+                      }`}
+                    >
+                      <Code className="w-4 h-4" />
+                      <span>Output</span>
+                      {/* Badge when output is ready */}
+                      {jsonOutput && mobileActiveTab === 'input' && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-[var(--accent-success)] rounded-full animate-pulse" />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Tab Content */}
+                  <div className="flex-1 min-h-0 overflow-hidden">
+                    {mobileActiveTab === 'input' ? (
+                      <motion.div
+                        key="mobile-input"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        className="h-full bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl"
+                        data-tour="input-panel"
+                      >
+                        <div className="p-4 h-full overflow-auto">
+                          <InputPanel />
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="mobile-output"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        className="h-full bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl"
+                        data-tour="output-panel"
+                      >
+                        <OutputPanel showGraph={false} />
+                      </motion.div>
+                    )}
+                  </div>
                 </section>
 
                 {/* Additional Features Section - Desktop only, hidden when output shown */}
