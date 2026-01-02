@@ -118,8 +118,8 @@ export function InputPanel({ className = '' }: InputPanelProps) {
 
   return (
     <div className={`h-full flex flex-col ${className}`}>
-      {/* Content area - no overflow here, parent handles scroll */}
-      <div className="flex-1 flex flex-col gap-4 min-h-0">
+      {/* Content area - scrollable on mobile to prevent overlap */}
+      <div className="flex-1 flex flex-col gap-4 min-h-0 overflow-y-auto pb-2">
         {/* Input Card with subtle focus state */}
         <motion.div
           className="flex flex-col bg-[var(--bg-card)] border rounded-xl p-5 transition-all duration-200"
@@ -152,7 +152,7 @@ export function InputPanel({ className = '' }: InputPanelProps) {
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder="Enter your prompt here..."
-          className="w-full h-full min-h-[200px] p-4 bg-[var(--bg-secondary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] text-sm resize-none focus:border-[var(--accent-primary)] focus:ring-1 focus:ring-[var(--accent-primary)]/20 focus:outline-none transition-all"
+          className="w-full h-full min-h-[120px] md:min-h-[200px] p-4 bg-[var(--bg-secondary)] border border-[var(--border-default)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-muted)] text-sm resize-none focus:border-[var(--accent-primary)] focus:ring-1 focus:ring-[var(--accent-primary)]/20 focus:outline-none transition-all"
         />
 
         {/* Character count */}
