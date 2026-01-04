@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Copy,
@@ -18,12 +19,16 @@ import {
   Eye,
   EyeOff,
   Share2,
+  Network,
+  Circle,
+  GitBranch,
+  Boxes,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useConverterStore } from '@/stores/converterStore';
 import { D3ForceGraph } from '@/components/visualization/D3ForceGraph';
 import { JSONConstructionLoader } from './JSONConstructionLoader';
-import type { ConceptNode } from '@/types';
+import type { ConceptNode, ConceptGraph } from '@/types';
 
 interface OutputPanelProps {
   className?: string;
@@ -324,9 +329,9 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
       </div>
 
       {/* Content area */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-auto md:overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-auto md:overflow-hidden min-h-0">
         {/* Left: Output views */}
-        <div className="min-h-[500px] md:min-h-0 md:flex-1 overflow-auto p-4 md:border-r border-b md:border-b-0 border-[var(--border-subtle)]">
+        <div className="flex-1 min-h-0 overflow-auto p-4 md:border-r border-[var(--border-subtle)]">
           <AnimatePresence mode="wait">
             {/* JSON View */}
             {activeOutputView === 'json' && (
@@ -387,9 +392,9 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
           </AnimatePresence>
         </div>
 
-        {/* Right: D3 Graph */}
+        {/* Right: D3 Graph - Hidden on mobile, use fullscreen button instead */}
         {showGraph && conceptGraph && (
-          <div className="w-full h-[700px] md:w-1/2 md:h-auto bg-[var(--bg-tertiary)] relative">
+          <div className="hidden md:block md:w-1/2 md:h-auto bg-[var(--bg-tertiary)] relative">
             {/* Graph control buttons */}
             <div className="absolute top-2 right-2 z-20 flex gap-2">
               <button
@@ -422,69 +427,18 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
         )}
       </div>
 
-      {/* Mobile Action Bar - Sticky bottom bar for touch-friendly controls */}
-      <div className="md:hidden flex-shrink-0 border-t border-[var(--border-subtle)] bg-[var(--bg-card)] p-3">
-        <div className="flex items-center justify-around gap-2">
-          {/* Copy - Primary action */}
-          <button
-            onClick={copyToClipboard}
-            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--accent-primary)] text-white active:scale-95 transition-transform"
-          >
-            {copySuccess ? (
-              <Check className="h-5 w-5" />
-            ) : (
-              <Copy className="h-5 w-5" />
-            )}
-            <span className="text-xs font-medium">{copySuccess ? 'Copied!' : 'Copy'}</span>
-          </button>
-
-          {/* Download */}
-          <button
-            onClick={downloadJSON}
-            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
-          >
-            {downloadSuccess ? (
-              <Check className="h-5 w-5 text-[var(--accent-success)]" />
-            ) : (
-              <Download className="h-5 w-5" />
-            )}
-            <span className="text-xs font-medium">{downloadSuccess ? 'Saved!' : 'Download'}</span>
-          </button>
-
-          {/* Edit */}
-          <button
-            onClick={isEditing ? saveEdit : startEditing}
-            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
-          >
-            {isEditing ? (
-              <Save className="h-5 w-5 text-[var(--accent-success)]" />
-            ) : (
-              <Edit3 className="h-5 w-5" />
-            )}
-            <span className="text-xs font-medium">{isEditing ? 'Save' : 'Edit'}</span>
-          </button>
-
-          {/* Refine */}
-          <button
-            onClick={refineJson}
-            className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
-          >
-            <Wand2 className="h-5 w-5" />
-            <span className="text-xs font-medium">Refine</span>
-          </button>
-
-          {/* Graph - Only if graph is available */}
-          {conceptGraph && (
-            <button
-              onClick={() => setShowFullscreenGraph(true)}
-              className="flex-1 flex flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:scale-95 transition-transform"
-            >
-              <Maximize2 className="h-5 w-5" />
-              <span className="text-xs font-medium">Graph</span>
-            </button>
-          )}
-        </div>
-      </div>
+      {/* Mobile Radial Action Menu - Rendered via portal to escape overflow clipping */}
+      <MobileRadialMenuPortal
+        copyToClipboard={copyToClipboard}
+        copySuccess={copySuccess}
+        downloadJSON={downloadJSON}
+        downloadSuccess={downloadSuccess}
+        isEditing={isEditing}
+        saveEdit={saveEdit}
+        startEditing={startEditing}
+        refineJson={refineJson}
+        openGraph={() => setShowFullscreenGraph(true)}
+      />
 
       {/* Copy success toast - Desktop only */}
       <AnimatePresence>
@@ -503,38 +457,17 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
         )}
       </AnimatePresence>
 
-      {/* Fullscreen Graph Modal */}
+      {/* Fullscreen Modal - Graph + Views switcher for mobile */}
       <AnimatePresence>
-        {showFullscreenGraph && conceptGraph && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-[var(--bg-primary)] flex flex-col"
-          >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-4 border-b border-[var(--border-subtle)]">
-              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
-                Concept Graph - Fullscreen View
-              </h2>
-              <button
-                onClick={() => setShowFullscreenGraph(false)}
-                className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg transition-colors"
-                title="Close fullscreen"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            {/* Modal Content */}
-            <div className="flex-1 relative bg-[var(--bg-tertiary)]">
-              <D3ForceGraph
-                graph={conceptGraph}
-                onNodeClick={handleNodeClick}
-                selectedNodeId={selectedNodeId}
-                className="h-full"
-              />
-            </div>
-          </motion.div>
+        {showFullscreenGraph && (
+          <FullscreenModal
+            conceptGraph={conceptGraph}
+            jsonOutput={jsonOutput}
+            previousOutput={previousOutput}
+            selectedNodeId={selectedNodeId}
+            onNodeClick={handleNodeClick}
+            onClose={() => setShowFullscreenGraph(false)}
+          />
         )}
       </AnimatePresence>
     </motion.div>
@@ -668,6 +601,370 @@ function DiffView({
           {line.content}
         </div>
       ))}
+    </div>
+  );
+}
+
+/**
+ * Fullscreen Modal with view switcher for mobile
+ */
+type FullscreenViewType = 'graph' | 'json' | 'formatted' | 'diff';
+type GraphLayoutType = 'force' | 'radial' | 'hierarchy' | 'cluster';
+
+const GRAPH_LAYOUTS: { id: GraphLayoutType; icon: React.ReactNode; label: string }[] = [
+  { id: 'force', icon: <Network className="w-4 h-4" />, label: 'Force' },
+  { id: 'radial', icon: <Circle className="w-4 h-4" />, label: 'Radial' },
+  { id: 'hierarchy', icon: <GitBranch className="w-4 h-4" />, label: 'Tree' },
+  { id: 'cluster', icon: <Boxes className="w-4 h-4" />, label: 'Cluster' },
+];
+
+interface FullscreenModalProps {
+  conceptGraph: ConceptGraph | null;
+  jsonOutput: Record<string, unknown> | null;
+  previousOutput: Record<string, unknown> | null;
+  selectedNodeId: string | null;
+  onNodeClick: (node: ConceptNode) => void;
+  onClose: () => void;
+}
+
+function FullscreenModal({
+  conceptGraph,
+  jsonOutput,
+  previousOutput,
+  selectedNodeId,
+  onNodeClick,
+  onClose,
+}: FullscreenModalProps) {
+  const [activeView, setActiveView] = useState<FullscreenViewType>('graph');
+  const [graphLayout, setGraphLayout] = useState<GraphLayoutType>('force');
+
+  const viewTabs: { id: FullscreenViewType; label: string; icon: React.ReactNode; disabled?: boolean }[] = [
+    { id: 'graph', label: 'Graph', icon: <Share2 className="h-4 w-4" />, disabled: !conceptGraph },
+    { id: 'json', label: 'JSON', icon: <Code className="h-4 w-4" /> },
+    { id: 'formatted', label: 'Format', icon: <FileText className="h-4 w-4" /> },
+    { id: 'diff', label: 'Diff', icon: <GitCompare className="h-4 w-4" />, disabled: !previousOutput },
+  ];
+
+  // Cycle through graph layouts
+  const cycleLayout = () => {
+    const currentIndex = GRAPH_LAYOUTS.findIndex(l => l.id === graphLayout);
+    const nextIndex = (currentIndex + 1) % GRAPH_LAYOUTS.length;
+    setGraphLayout(GRAPH_LAYOUTS[nextIndex].id);
+  };
+
+  const currentLayoutInfo = GRAPH_LAYOUTS.find(l => l.id === graphLayout);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] bg-[var(--bg-primary)] flex flex-col"
+    >
+      {/* Modal Header with Close button */}
+      <div className="flex items-center justify-between p-3 border-b border-[var(--border-subtle)]">
+        <h2 className="text-base font-semibold text-[var(--text-primary)]">
+          Output View
+        </h2>
+        <button
+          onClick={onClose}
+          className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg transition-colors"
+          title="Close"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      {/* View Tabs */}
+      <div className="flex gap-1 p-2 bg-[var(--bg-secondary)] border-b border-[var(--border-subtle)]">
+        {viewTabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => !tab.disabled && setActiveView(tab.id)}
+            disabled={tab.disabled}
+            className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-xs font-medium transition-all ${
+              activeView === tab.id
+                ? 'bg-[var(--accent-primary)] text-white shadow-md'
+                : tab.disabled
+                ? 'text-[var(--text-disabled)] cursor-not-allowed'
+                : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]'
+            }`}
+          >
+            {tab.icon}
+            <span>{tab.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Graph Layout Selector - Only show when graph tab is active */}
+      {activeView === 'graph' && conceptGraph && (
+        <div className="flex items-center justify-between px-3 py-2 bg-[var(--bg-tertiary)] border-b border-[var(--border-subtle)]">
+          <span className="text-xs text-[var(--text-muted)]">
+            {conceptGraph.nodes.length} nodes
+          </span>
+          <div className="flex gap-1">
+            {GRAPH_LAYOUTS.map((layout) => (
+              <button
+                key={layout.id}
+                onClick={() => setGraphLayout(layout.id)}
+                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  graphLayout === layout.id
+                    ? 'bg-[var(--accent-primary)] text-white'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]'
+                }`}
+                title={layout.label}
+              >
+                {layout.icon}
+                <span className="hidden sm:inline">{layout.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Content Area */}
+      <div className="flex-1 relative overflow-hidden">
+        <AnimatePresence mode="wait">
+          {activeView === 'graph' && conceptGraph && (
+            <motion.div
+              key={`graph-${graphLayout}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="h-full bg-[var(--bg-tertiary)]"
+            >
+              <D3ForceGraph
+                graph={conceptGraph}
+                onNodeClick={onNodeClick}
+                selectedNodeId={selectedNodeId}
+                className="h-full"
+                hideControls={true}
+                initialLayout={graphLayout}
+              />
+            </motion.div>
+          )}
+
+          {activeView === 'json' && jsonOutput && (
+            <motion.div
+              key="json"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="h-full overflow-auto p-4"
+            >
+              <pre className="code-block h-full overflow-auto whitespace-pre-wrap text-sm">
+                {JSON.stringify(jsonOutput, null, 2)}
+              </pre>
+            </motion.div>
+          )}
+
+          {activeView === 'formatted' && jsonOutput && (
+            <motion.div
+              key="formatted"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="h-full overflow-auto p-4"
+            >
+              <FormattedView data={jsonOutput} />
+            </motion.div>
+          )}
+
+          {activeView === 'diff' && previousOutput && jsonOutput && (
+            <motion.div
+              key="diff"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="h-full overflow-auto p-4"
+            >
+              <DiffView previous={previousOutput} current={jsonOutput} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+}
+
+/**
+ * Portal wrapper for MobileRadialMenu to escape overflow clipping
+ */
+function MobileRadialMenuPortal(props: MobileRadialMenuProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <MobileRadialMenu {...props} />,
+    document.body
+  );
+}
+
+/**
+ * Mobile Radial Action Menu - Floating FAB with radial expansion
+ */
+interface MobileRadialMenuProps {
+  copyToClipboard: () => void;
+  copySuccess: boolean;
+  downloadJSON: () => void;
+  downloadSuccess: boolean;
+  isEditing: boolean;
+  saveEdit: () => void;
+  startEditing: () => void;
+  refineJson: () => void;
+  openGraph: () => void;
+}
+
+function MobileRadialMenu({
+  copyToClipboard,
+  copySuccess,
+  downloadJSON,
+  downloadSuccess,
+  isEditing,
+  saveEdit,
+  startEditing,
+  refineJson,
+  openGraph,
+}: MobileRadialMenuProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const actions = [
+    {
+      icon: copySuccess ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />,
+      label: copySuccess ? 'Copied!' : 'Copy',
+      onClick: copyToClipboard,
+      primary: true,
+    },
+    {
+      icon: downloadSuccess ? <Check className="h-5 w-5" /> : <Download className="h-5 w-5" />,
+      label: downloadSuccess ? 'Saved!' : 'Download',
+      onClick: downloadJSON,
+    },
+    {
+      icon: isEditing ? <Save className="h-5 w-5" /> : <Edit3 className="h-5 w-5" />,
+      label: isEditing ? 'Save' : 'Edit',
+      onClick: isEditing ? saveEdit : startEditing,
+    },
+    {
+      icon: <Wand2 className="h-5 w-5" />,
+      label: 'Refine',
+      onClick: refineJson,
+    },
+    {
+      icon: <Maximize2 className="h-5 w-5" />,
+      label: 'Expand',
+      onClick: openGraph,
+    },
+  ];
+
+  // Radial positions - arc going UP and LEFT from bottom-right FAB
+  const getRadialPosition = (index: number, total: number) => {
+    // Arc from 180° (left) to 90° (up) - all positions stay on screen
+    const startAngle = 180; // Left
+    const endAngle = 90; // Up
+    const angleRange = startAngle - endAngle;
+    const angle = startAngle - (angleRange / (total - 1)) * index;
+    const radians = (angle * Math.PI) / 180;
+    const radius = 150; // Distance from center - increased for better spacing
+    return {
+      x: Math.cos(radians) * radius,
+      y: -Math.sin(radians) * radius, // Negative because CSS Y is inverted
+    };
+  };
+
+  return (
+    <div className="md:hidden fixed bottom-6 right-6 z-[9999]">
+      {/* Radial Action Buttons */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+              style={{ zIndex: -1 }}
+              onClick={() => setIsOpen(false)}
+            />
+
+            {/* Action Buttons */}
+            {actions.map((action, index) => {
+              const pos = getRadialPosition(index, actions.length);
+              // Tooltip position based on button position in arc
+              // First buttons (left side) -> tooltip on top
+              // Last buttons (top side) -> tooltip on left
+              const isTopHalf = index >= actions.length / 2;
+              const tooltipClass = isTopHalf
+                ? 'bottom-full mb-2 left-1/2 -translate-x-1/2' // Above button
+                : 'right-full mr-2 top-1/2 -translate-y-1/2'; // Left of button
+
+              return (
+                <motion.button
+                  key={action.label}
+                  initial={{ opacity: 0, scale: 0.3 }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    x: pos.x,
+                    y: pos.y,
+                    transition: {
+                      type: 'spring',
+                      stiffness: 400,
+                      damping: 25,
+                      delay: index * 0.04
+                    }
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.3,
+                    x: 0,
+                    y: 0,
+                    transition: { duration: 0.15, delay: (actions.length - index) * 0.02 }
+                  }}
+                  onClick={() => {
+                    action.onClick();
+                    if (!action.label.includes('Copy') && !action.label.includes('Download')) {
+                      setIsOpen(false);
+                    }
+                  }}
+                  className={`absolute w-11 h-11 rounded-full flex items-center justify-center shadow-lg active:scale-95 ${
+                    action.primary
+                      ? 'bg-[var(--accent-primary)] text-white'
+                      : 'bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border-subtle)]'
+                  }`}
+                >
+                  {action.icon}
+                  {/* Tooltip - positioned dynamically based on button position */}
+                  <span className={`absolute px-2 py-1 text-xs font-medium bg-[var(--bg-card)] text-[var(--text-primary)] rounded-md whitespace-nowrap shadow-md border border-[var(--border-subtle)] ${tooltipClass}`}>
+                    {action.label}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Main FAB Button */}
+      <motion.button
+        whileTap={{ scale: 0.9 }}
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg bg-[var(--accent-primary)] text-white"
+      >
+        <motion.div
+          animate={{ rotate: isOpen ? 45 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Code className="h-6 w-6" />}
+        </motion.div>
+      </motion.button>
     </div>
   );
 }

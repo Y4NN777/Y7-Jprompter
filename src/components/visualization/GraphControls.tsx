@@ -9,10 +9,6 @@ import {
   Filter,
   Search,
   X,
-  ZoomIn,
-  ZoomOut,
-  Maximize2,
-  RotateCcw,
   ChevronUp
 } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
@@ -28,10 +24,6 @@ interface GraphControlsProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   nodeCount: number;
-  onZoomIn?: () => void;
-  onZoomOut?: () => void;
-  onFitToView?: () => void;
-  onReset?: () => void;
 }
 
 const LAYOUTS: { id: LayoutType; icon: React.ReactNode; label: string }[] = [
@@ -57,10 +49,6 @@ export function GraphControls({
   searchQuery,
   onSearchChange,
   nodeCount,
-  onZoomIn,
-  onZoomOut,
-  onFitToView,
-  onReset,
 }: GraphControlsProps) {
   const [showFilters, setShowFilters] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -119,7 +107,7 @@ export function GraphControls({
         )}
       </AnimatePresence>
 
-      {/* Mobile Floating Toolbar - Simplified */}
+      {/* Mobile Floating Toolbar - Layout only */}
       <AnimatePresence>
         {isVisible && (
           <motion.div
@@ -140,46 +128,6 @@ export function GraphControls({
                 title={`Layout: ${LAYOUTS[currentLayoutIndex].label}`}
               >
                 {LAYOUTS[currentLayoutIndex].icon}
-              </motion.button>
-
-              {/* Zoom Out */}
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={onZoomOut}
-                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
-                title="Zoom out"
-              >
-                <ZoomOut className="w-5 h-5" />
-              </motion.button>
-
-              {/* Zoom In */}
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={onZoomIn}
-                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
-                title="Zoom in"
-              >
-                <ZoomIn className="w-5 h-5" />
-              </motion.button>
-
-              {/* Fit to View */}
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={onFitToView}
-                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
-                title="Fit to view"
-              >
-                <Maximize2 className="w-5 h-5" />
-              </motion.button>
-
-              {/* Reset */}
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={onReset}
-                className="p-3 rounded-xl bg-[var(--bg-secondary)] text-[var(--text-primary)] active:bg-[var(--bg-tertiary)]"
-                title="Reset view"
-              >
-                <RotateCcw className="w-5 h-5" />
               </motion.button>
             </div>
           </motion.div>
@@ -270,47 +218,6 @@ export function GraphControls({
                     {activeFiltersCount}
                   </span>
                 )}
-              </motion.button>
-
-              {/* Divider */}
-              <div className="w-px h-6 bg-[var(--border-subtle)] mx-1" />
-
-              {/* Zoom Controls */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onZoomOut}
-                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
-                title="Zoom out"
-              >
-                <ZoomOut className="w-4 h-4" />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onZoomIn}
-                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
-                title="Zoom in"
-              >
-                <ZoomIn className="w-4 h-4" />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onFitToView}
-                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
-                title="Fit to view"
-              >
-                <Maximize2 className="w-4 h-4" />
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onReset}
-                className="p-2.5 rounded-xl text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
-                title="Reset view"
-              >
-                <RotateCcw className="w-4 h-4" />
               </motion.button>
 
               {/* Node Count Badge */}

@@ -7,6 +7,7 @@ import { useConverterStore } from '@/stores/converterStore';
 import { ContextInjection } from './ContextInjection';
 import { QuickActionsBar } from './QuickActionsBar';
 import { ExamplePrompts } from './ExamplePrompts';
+import { JSONConstructionLoader } from './JSONConstructionLoader';
 import { RateLimitToast } from '@/components/ui/RateLimitToast';
 import { toast } from 'sonner';
 
@@ -217,6 +218,20 @@ export function InputPanel({ className = '' }: InputPanelProps) {
           />
         </div>
       </div>
+
+      {/* Mobile Loading Animation - Shows between complexity and button */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden overflow-hidden"
+          >
+            <JSONConstructionLoader />
+          </motion.div>
+        )}
+      </AnimatePresence>
       </div>
 
       {/* Convert Button - always visible at bottom */}

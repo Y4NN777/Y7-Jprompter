@@ -20,6 +20,7 @@ interface D3ForceGraphProps {
   className?: string;
   selectedNodeId?: string | null;
   hideControls?: boolean;
+  initialLayout?: LayoutType;
 }
 
 // Category colors from theme
@@ -64,20 +65,25 @@ export function D3ForceGraph({
   className = '',
   selectedNodeId,
   hideControls = false,
+  initialLayout = 'force',
 }: D3ForceGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 400 });
   const [hoveredNode, setHoveredNode] = useState<ConceptNode | null>(null);
-  const [transform, setTransform] = useState<d3.ZoomTransform | null>(null);
   const simulationRef = useRef<d3.Simulation<SimulationNode, SimulationLink> | null>(null);
   const [internalSelectedId, setInternalSelectedId] = useState<string | null>(null);
   const [showDetailsPanel, setShowDetailsPanel] = useState(false);
-  
+
   // Layout and filter state
-  const [currentLayout, setCurrentLayout] = useState<LayoutType>('force');
+  const [currentLayout, setCurrentLayout] = useState<LayoutType>(initialLayout);
   const [categoryFilters, setCategoryFilters] = useState<Set<ConceptCategory>>(new Set());
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Sync layout when initialLayout prop changes
+  useEffect(() => {
+    setCurrentLayout(initialLayout);
+  }, [initialLayout]);
 
   // Use prop or internal state for selection
   const activeSelectedId = selectedNodeId ?? internalSelectedId;
@@ -183,7 +189,6 @@ export function D3ForceGraph({
       .scaleExtent([0.2, 4])
       .on('zoom', (event) => {
         g.attr('transform', event.transform);
-        setTransform(event.transform);
       });
 
     svg.call(zoom);
@@ -291,16 +296,17 @@ export function D3ForceGraph({
       .attr('filter', 'url(#glow)')
       .style('transition', 'all 0.3s ease');
 
-    // Node labels
+    // Node labels - Strong, visible text
     nodeElements.append('text')
       .text((d) => truncateLabel(d.label))
       .attr('text-anchor', 'middle')
       .attr('dy', '0.35em')
-      .attr('fill', 'var(--text-inverse)')
-      .attr('font-size', (d) => Math.max(10, 8 + d.weight * 4))
-      .attr('font-weight', '500')
+      .attr('fill', '#ffffff')
+      .attr('font-size', (d) => Math.max(11, 9 + d.weight * 4))
+      .attr('font-weight', '700')
       .attr('pointer-events', 'none')
-      .style('text-shadow', '0 1px 2px rgba(0,0,0,0.5)');
+      .style('text-shadow', '0 1px 3px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.5)')
+      .style('letter-spacing', '0.02em');
 
     // Interaction handlers
     nodeElements
@@ -412,61 +418,6 @@ export function D3ForceGraph({
     setInternalSelectedId(nodeId);
   }, []);
 
-  // Zoom controls
-  const handleZoom = useCallback((scale: number) => {
-    if (!svgRef.current) return;
-    const svg = d3.select(svgRef.current);
-    svg.transition().duration(300).call(
-      d3.zoom<SVGSVGElement, unknown>().scaleTo,
-      scale
-    );
-  }, []);
-
-  const handleReset = useCallback(() => {
-    if (!svgRef.current) return;
-    const svg = d3.select(svgRef.current);
-    svg.transition().duration(500).call(
-      d3.zoom<SVGSVGElement, unknown>().transform,
-      d3.zoomIdentity
-    );
-
-    // Restart simulation
-    if (simulationRef.current) {
-      simulationRef.current.alpha(0.3).restart();
-    }
-  }, []);
-
-  const handleFitToView = useCallback(() => {
-    if (!svgRef.current || !graph?.nodes.length) return;
-
-    const svg = d3.select(svgRef.current);
-    const { width, height } = dimensions;
-
-    // Calculate bounds
-    const nodes = svg.selectAll<SVGGElement, SimulationNode>('.node').data();
-    if (!nodes.length) return;
-
-    const xs = nodes.map((n) => n.x);
-    const ys = nodes.map((n) => n.y);
-    const minX = Math.min(...xs) - 50;
-    const maxX = Math.max(...xs) + 50;
-    const minY = Math.min(...ys) - 50;
-    const maxY = Math.max(...ys) + 50;
-
-    const graphWidth = maxX - minX;
-    const graphHeight = maxY - minY;
-    const scale = Math.min(width / graphWidth, height / graphHeight, 2) * 0.9;
-    const centerX = (minX + maxX) / 2;
-    const centerY = (minY + maxY) / 2;
-
-    svg.transition().duration(500).call(
-      d3.zoom<SVGSVGElement, unknown>().transform,
-      d3.zoomIdentity
-        .translate(width / 2 - centerX * scale, height / 2 - centerY * scale)
-        .scale(scale)
-    );
-  }, [dimensions, filteredGraph]);
-
   // Empty state
   if (!graph || !graph.nodes.length) {
     return (
@@ -501,10 +452,6 @@ export function D3ForceGraph({
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           nodeCount={filteredGraph?.nodes.length || 0}
-          onZoomIn={() => handleZoom((transform?.k || 1) * 1.3)}
-          onZoomOut={() => handleZoom((transform?.k || 1) / 1.3)}
-          onFitToView={handleFitToView}
-          onReset={handleReset}
         />
       )}
 

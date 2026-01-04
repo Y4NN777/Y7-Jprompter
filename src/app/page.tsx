@@ -12,17 +12,23 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { InputPanel } from '@/components/converter/InputPanel';
 import { OutputPanel } from '@/components/converter/OutputPanel';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Zap, Eye, FolderOpen, BarChart3, FileJson, Key, HelpCircle, ChevronDown, Settings, Check, Lightbulb, PenLine, Code } from 'lucide-react';
 import Image from 'next/image';
 import { PromptLibrary } from '@/components/library/PromptLibrary';
 import { FeedbackPanel } from '@/components/feedback/FeedbackPanel';
 import { HistoryView, TemplatesView, SettingsView, AboutView } from '@/components/views';
 
-// Animation variants for the CTA button
+// Animation variants for the CTA button - desktop only (hover)
 const arrowVariants = {
   rest: { x: -12, opacity: 0 },
   hover: { x: 0, opacity: 1, transition: { type: 'spring' as const, stiffness: 500, damping: 25 } },
+};
+
+// Static arrow for mobile (always visible)
+const arrowVariantsMobile = {
+  rest: { x: 0, opacity: 1 },
+  hover: { x: 0, opacity: 1 },
 };
 
 export default function Home() {
@@ -42,6 +48,13 @@ export default function Home() {
     window.addEventListener('resize', checkDesktop);
     return () => window.removeEventListener('resize', checkDesktop);
   }, []);
+
+  // Auto-switch to output tab on mobile when conversion completes
+  useEffect(() => {
+    if (jsonOutput && !isDesktop) {
+      setMobileActiveTab('output');
+    }
+  }, [jsonOutput, isDesktop]);
 
   // Keyboard Shortcuts
   useKeyboardShortcuts([
@@ -199,12 +212,17 @@ export default function Home() {
                       transition={{ duration: 0.6, ease: 'easeInOut' }}
                     />
                     <span className="relative z-10">Use for Free</span>
+                    {/* Desktop: animated arrow on hover */}
                     <motion.span
                       variants={arrowVariants}
-                      className="relative z-10"
+                      className="relative z-10 hidden md:block"
                     >
                       <ArrowRight className="w-5 h-5" />
                     </motion.span>
+                    {/* Mobile: static arrow always visible */}
+                    <span className="relative z-10 md:hidden">
+                      <ArrowRight className="w-5 h-5" />
+                    </span>
                   </motion.button>
                 </motion.div>
               </section>
@@ -431,12 +449,17 @@ export default function Home() {
                       transition={{ duration: 0.6, ease: 'easeInOut' }}
                     />
                     <span className="relative z-10">Get Started</span>
+                    {/* Desktop: animated arrow on hover */}
                     <motion.span
                       variants={arrowVariants}
-                      className="relative z-10"
+                      className="relative z-10 hidden md:block"
                     >
                       <ArrowRight className="w-5 h-5" />
                     </motion.span>
+                    {/* Mobile: static arrow always visible */}
+                    <span className="relative z-10 md:hidden">
+                      <ArrowRight className="w-5 h-5" />
+                    </span>
                   </motion.button>
                 </motion.div>
               </section>
@@ -612,31 +635,35 @@ export default function Home() {
 
                   {/* Tab Content */}
                   <div className="flex-1 min-h-0 overflow-hidden">
-                    {mobileActiveTab === 'input' ? (
-                      <motion.div
-                        key="mobile-input"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        className="h-full bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl"
-                        data-tour="input-panel"
-                      >
-                        <div className="p-4 h-full overflow-auto">
-                          <InputPanel />
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="mobile-output"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        className="h-full bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl"
-                        data-tour="output-panel"
-                      >
-                        <OutputPanel showGraph={false} />
-                      </motion.div>
-                    )}
+                    <AnimatePresence mode="wait">
+                      {mobileActiveTab === 'input' ? (
+                        <motion.div
+                          key="mobile-input"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.2 }}
+                          className="h-full bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl"
+                          data-tour="input-panel"
+                        >
+                          <div className="p-4 h-full overflow-auto">
+                            <InputPanel />
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="mobile-output"
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          transition={{ duration: 0.2 }}
+                          className="h-full bg-[var(--bg-card)] rounded-2xl border border-[var(--border-subtle)] shadow-sm overflow-hidden backdrop-blur-xl"
+                          data-tour="output-panel"
+                        >
+                          <OutputPanel showGraph={true} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </section>
 
