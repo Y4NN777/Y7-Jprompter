@@ -16,8 +16,8 @@ import {
   X,
   Wand2,
   Maximize2,
-  Eye,
-  EyeOff,
+  Hand,
+  Pointer,
   Share2,
   Network,
   Circle,
@@ -153,8 +153,12 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
   };
 
   // Handle node click from graph
-  const handleNodeClick = (node: ConceptNode) => {
-    setSelectedNodeId(node.id === selectedNodeId ? null : node.id);
+  const handleNodeClick = (node: ConceptNode | null) => {
+    if (node === null) {
+      setSelectedNodeId(null);
+    } else {
+      setSelectedNodeId(node.id === selectedNodeId ? null : node.id);
+    }
   };
 
   // Tabs configuration
@@ -403,9 +407,9 @@ export function OutputPanel({ className = '', showGraph = true }: OutputPanelPro
                 title={hideGraphControls ? 'Show controls' : 'Hide controls'}
               >
                 {hideGraphControls ? (
-                  <Eye className="h-4 w-4" />
+                  <Pointer className="h-4 w-4" />
                 ) : (
-                  <EyeOff className="h-4 w-4" />
+                  <Hand className="h-4 w-4" />
                 )}
               </button>
               <button
@@ -857,8 +861,8 @@ function MobileRadialMenu({
       onClick: refineJson,
     },
     {
-      icon: <Maximize2 className="h-5 w-5" />,
-      label: 'Expand',
+      icon: <Network className="h-5 w-5" />,
+      label: 'Graph',
       onClick: openGraph,
     },
   ];

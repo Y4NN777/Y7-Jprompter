@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import * as d3 from 'd3';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PanelRightOpen } from 'lucide-react';
 import { NodeDetailsPanel } from './NodeDetailsPanel';
 import { GraphControls, type LayoutType } from './GraphControls';
 import {
@@ -496,23 +495,18 @@ export function D3ForceGraph({
         </div>
       )}
 
-      {/* Details Panel Toggle */}
-      {selectedNode && !showDetailsPanel && (
-        <button
-          onClick={() => setShowDetailsPanel(true)}
-          className="absolute top-4 right-16 btn-ghost p-2 rounded-lg bg-[var(--accent-primary)] text-white border border-[var(--accent-primary)]"
-          title="Show node details"
-        >
-          <PanelRightOpen className="h-4 w-4" />
-        </button>
-      )}
-
-      {/* Node Details Panel */}
-      {showDetailsPanel && (
+      {/* Node Details Panel - shows automatically when node is selected */}
+      {selectedNode && (
         <NodeDetailsPanel
           node={selectedNode}
           graph={graph}
-          onClose={() => setShowDetailsPanel(false)}
+          onClose={() => {
+            setInternalSelectedId(null);
+            // Also notify parent to clear selection if using external selectedNodeId
+            if (selectedNodeId && onNodeClick) {
+              onNodeClick(null as unknown as ConceptNode);
+            }
+          }}
           onNodeSelect={handleNodeSelectFromPanel}
         />
       )}
