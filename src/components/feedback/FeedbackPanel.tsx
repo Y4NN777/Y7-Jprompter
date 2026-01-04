@@ -77,7 +77,7 @@ export function FeedbackPanel({ isOpen, onClose }: FeedbackPanelProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-2xl bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-subtle)] shadow-2xl overflow-hidden"
+          className="w-full max-w-2xl max-h-[90vh] bg-[var(--bg-primary)] rounded-2xl border border-[var(--border-subtle)] shadow-2xl overflow-hidden flex flex-col"
         >
           <div className="flex items-center justify-between p-4 border-b border-[var(--border-subtle)]">
             <div className="flex items-center gap-3">
@@ -107,7 +107,7 @@ export function FeedbackPanel({ isOpen, onClose }: FeedbackPanelProps) {
             </div>
           </div>
 
-          <div className="p-6">
+          <div className="p-4 md:p-6 flex-1 overflow-y-auto">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-12">
                 <RefreshCw className="w-8 h-8 text-[var(--accent-primary)] animate-spin mb-4" />

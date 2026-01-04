@@ -30,9 +30,9 @@ export function JSONConstructionLoader() {
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-4 md:space-y-6 px-2">
+    <div className="w-full max-w-2xl mx-auto space-y-2 md:space-y-6 px-2">
       {/* Animated JSON Code Block */}
-      <div className="relative bg-[var(--bg-tertiary)] rounded-lg md:rounded-xl p-3 md:p-6 border-2 border-[var(--accent-primary)]/30 overflow-hidden min-h-[140px] md:min-h-[180px]">
+      <div className="relative bg-[var(--bg-tertiary)] rounded-lg md:rounded-xl p-2 md:p-6 border-2 border-[var(--accent-primary)]/30 overflow-hidden min-h-[100px] md:min-h-[180px]">
         {/* Scanning line effect */}
         <motion.div
           className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent"
@@ -131,25 +131,25 @@ export function JSONConstructionLoader() {
         </div>
       </div>
 
-      {/* Progress indicator */}
-      <div className="text-center space-y-2 md:space-y-3">
+      {/* Progress indicator - compact on mobile */}
+      <div className="text-center space-y-1 md:space-y-3">
         <motion.p
           key={stages[stage].label}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-xs md:text-sm text-[var(--text-secondary)] font-medium"
+          className="text-[10px] md:text-sm text-[var(--text-secondary)] font-medium"
         >
           {stages[stage].label}
         </motion.p>
 
         {/* Progress dots */}
-        <div className="flex gap-1.5 md:gap-2 justify-center">
+        <div className="flex gap-1 md:gap-2 justify-center">
           {stages.map((_, i) => (
             <motion.div
               key={i}
-              className="h-1.5 md:h-2 rounded-full bg-[var(--accent-primary)]"
+              className="h-1 md:h-2 rounded-full bg-[var(--accent-primary)]"
               animate={{
-                width: i === stage ? 20 : 6,
+                width: i === stage ? 16 : 4,
                 opacity: i === stage ? 1 : 0.3,
               }}
               transition={{ duration: 0.3 }}
@@ -157,9 +157,9 @@ export function JSONConstructionLoader() {
           ))}
         </div>
 
-        {/* Token counter animation */}
+        {/* Token counter animation - hidden on mobile */}
         <motion.div
-          className="flex items-center justify-center gap-2 md:gap-3 text-xs md:text-sm text-[var(--text-muted)]"
+          className="hidden md:flex items-center justify-center gap-3 text-sm text-[var(--text-muted)]"
         >
           <span>Tokens processed:</span>
           <motion.span

@@ -109,11 +109,11 @@ export function HistoryView() {
                       e.stopPropagation();
                       removeFromHistory(entry.id);
                     }}
-                    className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-error)] hover:bg-[var(--accent-error)]/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                    className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-error)] hover:bg-[var(--accent-error)]/10 rounded-lg transition-colors md:opacity-0 md:group-hover:opacity-100"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
-                  <ArrowRight className="w-4 h-4 text-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <ArrowRight className="w-4 h-4 text-[var(--accent-primary)] md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
             </motion.div>

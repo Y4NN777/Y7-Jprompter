@@ -170,26 +170,25 @@ export function InputPanel({ className = '' }: InputPanelProps) {
         complexity={complexity}
       />
 
-      {/* Complexity Slider */}
-      <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl p-5" data-tour="complexity">
-        <div className="flex items-center justify-between mb-4">
-          <label className="text-sm font-medium text-[var(--text-primary)]">
-            Complexity Level
+      {/* Complexity Slider - Compact on mobile */}
+      <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-xl p-3 md:p-5" data-tour="complexity">
+        <div className="flex items-center justify-between mb-2 md:mb-4">
+          <label className="text-xs md:text-sm font-medium text-[var(--text-primary)]">
+            Complexity
           </label>
-          <span className="text-sm font-semibold text-[var(--accent-primary)]">
+          <span className="text-xs md:text-sm font-semibold text-[var(--accent-primary)]">
             {COMPLEXITY_LABELS[complexity - 1]}
           </span>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1 md:gap-2">
           {[1, 2, 3, 4, 5, 6, 7].map((level) => (
             <motion.button
               key={level}
               onClick={() => setComplexity(level)}
-              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`
-                relative flex-1 h-10 rounded-lg text-sm font-medium transition-all overflow-hidden
+                relative flex-1 h-8 md:h-10 rounded-md md:rounded-lg text-xs md:text-sm font-medium transition-all overflow-hidden
                 ${complexity === level
                   ? 'bg-[var(--accent-primary)] text-white shadow-md'
                   : 'bg-[var(--bg-secondary)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]'
@@ -199,7 +198,7 @@ export function InputPanel({ className = '' }: InputPanelProps) {
               {complexity === level && (
                 <motion.div
                   layoutId="complexityIndicator"
-                  className="absolute inset-0 bg-[var(--accent-primary)] rounded-lg"
+                  className="absolute inset-0 bg-[var(--accent-primary)] rounded-md md:rounded-lg"
                   transition={springConfig}
                 />
               )}
@@ -208,8 +207,8 @@ export function InputPanel({ className = '' }: InputPanelProps) {
           ))}
         </div>
 
-        {/* Complexity bar indicator */}
-        <div className="mt-3 h-1 bg-[var(--bg-secondary)] rounded-full overflow-hidden">
+        {/* Complexity bar indicator - hidden on mobile */}
+        <div className="hidden md:block mt-3 h-1 bg-[var(--bg-secondary)] rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-[var(--accent-primary)] rounded-full"
             initial={{ width: '14.28%' }}
