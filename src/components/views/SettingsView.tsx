@@ -215,7 +215,7 @@ export function SettingsView() {
           <div className="space-y-4">
             <div>
               <label className="text-sm text-[var(--text-secondary)] mb-2 block">Theme</label>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {[
                   { value: 'light' as ThemeOption, icon: Sun, label: 'Light' },
                   { value: 'dark' as ThemeOption, icon: Moon, label: 'Dark' },
@@ -224,14 +224,14 @@ export function SettingsView() {
                   <button
                     key={value}
                     onClick={() => handleThemeChange(value)}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex-1 min-w-[80px] flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       theme === value
                         ? 'bg-[var(--accent-primary)] text-white'
                         : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
-                    {label}
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{label}</span>
                   </button>
                 ))}
               </div>
