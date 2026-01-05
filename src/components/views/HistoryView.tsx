@@ -103,7 +103,7 @@ export function HistoryView() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 shrink-0">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -111,9 +111,9 @@ export function HistoryView() {
                     }}
                     className="p-2 text-[var(--text-muted)] hover:text-[var(--accent-error)] hover:bg-[var(--accent-error)]/10 rounded-lg transition-colors md:opacity-0 md:group-hover:opacity-100"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-4 h-4 shrink-0" />
                   </button>
-                  <ArrowRight className="w-4 h-4 text-[var(--accent-primary)] md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
+                  <ArrowRight className="w-4 h-4 shrink-0 text-[var(--accent-primary)] md:opacity-0 md:group-hover:opacity-100 transition-opacity" />
                 </div>
               </div>
             </motion.div>
