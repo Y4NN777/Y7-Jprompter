@@ -1,0 +1,535 @@
+<!DOCTYPE html><!--BjxXpkKouL1q3jHsfaqXP-->
+<html lang="en"
+    class="inter_2fe1ab3d-module__-T-KAq__variable outfit_333574c6-module__a01f3W__variable jetbrains_mono_32dfc0ee-module__kJDCNG__variable">
+
+<head>
+    <meta charSet="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preload" href="/next/static/media/1b99372b3eaef0c8-s.p.758e15a8.woff2" as="font" crossorigin=""
+        type="font/woff2" />
+    <link rel="preload" href="/next/static/media/70bc3e132a0a741e-s.p.15008bfb.woff2" as="font" crossorigin=""
+        type="font/woff2" />
+    <link rel="preload" href="/next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2" as="font" crossorigin=""
+        type="font/woff2" />
+    <link rel="stylesheet" href="/next/static/chunks/d102b14644d363e0.css" data-precedence="next" />
+    <link rel="preload" as="script" fetchPriority="low" href="/next/static/chunks/e157419ec018148e.js" />
+    <script src="/next/static/chunks/30ea11065999f7ac.js" async=""></script>
+    <script src="/next/static/chunks/116be70200b5ba33.js" async=""></script>
+    <script src="/next/static/chunks/turbopack-029b79b3c12feac1.js" async=""></script>
+    <script src="/next/static/chunks/6c2feba942c74012.js" async=""></script>
+    <script src="/next/static/chunks/5f0930aca92e90e5.js" async=""></script>
+    <script src="/next/static/chunks/ff1a16fafef87110.js" async=""></script>
+    <script src="/next/static/chunks/7340adf74ff47ec0.js" async=""></script>
+    <script src="/next/static/chunks/ecfddba569510e8d.js" async=""></script>
+    <meta name="next-size-adjust" content="" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#2563eb" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#00d9ff" />
+    <title>Y7-Jprompter - Transform Prompts to JSON</title>
+    <meta name="description"
+        content="Transform regular prompts into powerful structured JSON prompts that get better AI results. Built with Next.js and Google Gemini AI." />
+    <meta name="author" content="Y7 Labs" />
+    <meta name="keywords"
+        content="AI prompts,JSON prompting,prompt engineering,Gemini AI,structured prompts,prompt visualization" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Y7-Jprompter - Transform Prompts to JSON" />
+    <meta property="og:description"
+        content="Transform regular prompts into powerful structured JSON prompts with visual concept graphs" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Y7-Jprompter - Transform Prompts to JSON" />
+    <meta name="twitter:description" content="Transform regular prompts into powerful structured JSON prompts" />
+    <link rel="icon" href="/favicon.svg" />
+    <script src="/next/static/chunks/a6dad97d9634a72d.js" noModule=""></script>
+</head>
+
+<body class="inter_2fe1ab3d-module__-T-KAq__className antialiased"
+    style="font-family:var(--font-inter), ui-sans-serif, system-ui, sans-serif">
+    <div hidden=""><!--$--><!--/$--></div>
+    <script src="./inline-index-6.js"></script>
+    <div class="min-h-screen bg-[var(--bg-primary)]">
+        <header
+            class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border-subtle)] bg-[var(--bg-primary)]/95 backdrop-blur-sm">
+            <div class="w-full px-3 sm:px-4 lg:px-6 h-16 flex items-center justify-between">
+                <div class="flex items-center gap-2 sm:gap-3"><button
+                        class="lg:hidden p-2 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] transition-colors"
+                        aria-label="Toggle menu" tabindex="0">
+                        <div style="opacity:0;transform:rotate(90deg)"><svg xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="lucide lucide-menu w-5 h-5 text-[var(--text-primary)]">
+                                <line x1="4" x2="20" y1="12" y2="12"></line>
+                                <line x1="4" x2="20" y1="6" y2="6"></line>
+                                <line x1="4" x2="20" y1="18" y2="18"></line>
+                            </svg></div>
+                    </button>
+                    <div class="flex items-center gap-2 cursor-pointer" tabindex="0">
+                        <div class="w-9 h-9 flex items-center justify-center"><img alt="Y7-Jprompter Logo"
+                                loading="lazy" width="28" height="28" decoding="async" data-nimg="1" class="w-7 h-7"
+                                style="color:transparent" src="/favicon.svg" /></div><span
+                            class="hidden sm:inline font-semibold text-[var(--text-primary)]">Y7-Jprompter</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1 sm:gap-2"><button
+                        class="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                        title="Prompt Library"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-open w-5 h-5">
+                            <path
+                                d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg></button><button disabled=""
+                        class="p-2 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        title="Get Feedback"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column w-5 h-5">
+                            <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
+                            <path d="M18 17V9"></path>
+                            <path d="M13 17V5"></path>
+                            <path d="M8 17v-3"></path>
+                        </svg></button>
+                    <div class="w-10 h-10 rounded-lg bg-[var(--bg-secondary)] "></div>
+                </div>
+            </div>
+        </header>
+        <div class="min-h-screen pt-16 transition-all duration-300 flex flex-col" style="margin-left:0;height:auto">
+            <main class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8" style="opacity:0">
+                <section class="py-16 sm:py-24 text-center">
+                    <div style="opacity:0;transform:translateY(20px)"><span
+                            class="inline-block px-3 py-1 mb-6 text-sm font-medium text-[var(--accent-primary)] bg-[var(--accent-primary-subtle)] rounded-full">Free
+                            &amp; Open Source</span></div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-6 tracking-tight"
+                        style="opacity:0;transform:translateY(20px)">Transform Your Prompts<br /><span
+                            class="text-[var(--accent-primary)]">Into Structured JSON</span></h1>
+                    <p class="text-lg sm:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-10"
+                        style="opacity:0;transform:translateY(20px)">Convert natural language prompts into
+                        well-organized JSON structures. Visualize concepts and relationships with interactive graphs.
+                    </p>
+                    <div style="opacity:0;transform:translateY(20px)"><button
+                            class="group relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--accent-primary)] text-white font-semibold rounded-xl shadow-lg shadow-[var(--accent-primary-glow)] overflow-hidden"
+                            tabindex="0">
+                            <div class="absolute inset-0 bg-gradient-to-r from-[var(--accent-primary)] via-[var(--accent-secondary)] to-[var(--accent-primary)] opacity-0"
+                                style="transform:translateX(-100%)"></div><span class="relative z-10">Use for
+                                Free</span><span class="relative z-10 hidden md:block"
+                                style="opacity:0;transform:translateX(-12px)"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-arrow-right w-5 h-5">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg></span><span class="relative z-10 md:hidden"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-arrow-right w-5 h-5">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg></span>
+                        </button></div>
+                </section>
+                <section class="py-16 sm:py-20 border-t border-[var(--border-subtle)]">
+                    <h2 class="text-2xl font-bold text-[var(--text-primary)] text-center mb-10 sm:mb-12"
+                        style="opacity:0">How It Works</h2>
+                    <div class="grid sm:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 mx-1 sm:mx-0">
+                        <div class="group text-center p-6 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary-subtle)] hover:shadow-lg transition-all cursor-pointer"
+                            style="opacity:0;transform:translateY(20px)">
+                            <div
+                                class="w-14 h-14 mx-auto mb-5 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-file-json w-7 h-7 text-[var(--accent-primary)]">
+                                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                    <path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"></path>
+                                    <path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1">
+                                    </path>
+                                </svg></div>
+                            <h3
+                                class="text-lg font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">
+                                JSON Structured</h3>
+                            <p class="text-[var(--text-secondary)] text-sm leading-relaxed">Convert natural prompts into
+                                well-organized JSON format</p>
+                        </div>
+                        <div class="group text-center p-6 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary-subtle)] hover:shadow-lg transition-all cursor-pointer"
+                            style="opacity:0;transform:translateY(20px)">
+                            <div
+                                class="w-14 h-14 mx-auto mb-5 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-zap w-7 h-7 text-[var(--accent-primary)]">
+                                    <path
+                                        d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z">
+                                    </path>
+                                </svg></div>
+                            <h3
+                                class="text-lg font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">
+                                AI Powered</h3>
+                            <p class="text-[var(--text-secondary)] text-sm leading-relaxed">Leverages Gemini AI for
+                                intelligent prompt analysis</p>
+                        </div>
+                        <div class="group text-center p-6 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary-subtle)] hover:shadow-lg transition-all cursor-pointer"
+                            style="opacity:0;transform:translateY(20px)">
+                            <div
+                                class="w-14 h-14 mx-auto mb-5 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-eye w-7 h-7 text-[var(--accent-primary)]">
+                                    <path
+                                        d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0">
+                                    </path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg></div>
+                            <h3
+                                class="text-lg font-semibold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent-primary)] transition-colors">
+                                Visual Graph</h3>
+                            <p class="text-[var(--text-secondary)] text-sm leading-relaxed">See your prompt structure as
+                                an interactive D3 visualization</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-16 sm:py-20 border-t border-[var(--border-subtle)]">
+                    <div class="max-w-3xl mx-auto px-1 sm:px-0">
+                        <h2 class="text-2xl font-bold text-[var(--text-primary)] text-center mb-10 sm:mb-12"
+                            style="opacity:0">Three Simple Steps</h2>
+                        <div class="space-y-3 sm:space-y-4">
+                            <div class="group relative" style="opacity:0;transform:translateX(-30px)">
+                                <div
+                                    class="flex items-start gap-5 p-5 rounded-xl hover:bg-[var(--bg-secondary)] transition-all cursor-pointer">
+                                    <div
+                                        class="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--accent-primary)] text-white font-bold flex items-center justify-center text-lg shadow-lg shadow-[var(--accent-primary-glow)]">
+                                        1</div>
+                                    <div class="flex-1 min-w-0 pt-0.5">
+                                        <div class="flex items-center gap-2.5 mb-2">
+                                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-file-json w-5 h-5 text-[var(--accent-primary)] flex-shrink-0">
+                                                    <path
+                                                        d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z">
+                                                    </path>
+                                                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                                                    <path
+                                                        d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1">
+                                                    </path>
+                                                    <path
+                                                        d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1">
+                                                    </path>
+                                                </svg></div>
+                                            <h3
+                                                class="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
+                                                Enter Your Prompt</h3>
+                                        </div>
+                                        <p class="text-[var(--text-secondary)] text-sm leading-relaxed">Type or paste
+                                            any natural language prompt you want to structure</p>
+                                    </div>
+                                    <div class="flex-shrink-0 self-start pt-1"
+                                        style="opacity:0;transform:translateX(-10px)"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-arrow-right w-5 h-5 text-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <path d="M5 12h14"></path>
+                                            <path d="m12 5 7 7-7 7"></path>
+                                        </svg></div>
+                                </div>
+                            </div>
+                            <div class="group relative" style="opacity:0;transform:translateX(-30px)">
+                                <div
+                                    class="flex items-start gap-5 p-5 rounded-xl hover:bg-[var(--bg-secondary)] transition-all cursor-pointer">
+                                    <div
+                                        class="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--accent-primary)] text-white font-bold flex items-center justify-center text-lg shadow-lg shadow-[var(--accent-primary-glow)]">
+                                        2</div>
+                                    <div class="flex-1 min-w-0 pt-0.5">
+                                        <div class="flex items-center gap-2.5 mb-2">
+                                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-zap w-5 h-5 text-[var(--accent-primary)] flex-shrink-0">
+                                                    <path
+                                                        d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z">
+                                                    </path>
+                                                </svg></div>
+                                            <h3
+                                                class="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
+                                                Choose Complexity</h3>
+                                        </div>
+                                        <p class="text-[var(--text-secondary)] text-sm leading-relaxed">Select how
+                                            detailed you want the JSON structure to be (1-7)</p>
+                                    </div>
+                                    <div class="flex-shrink-0 self-start pt-1"
+                                        style="opacity:0;transform:translateX(-10px)"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-arrow-right w-5 h-5 text-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <path d="M5 12h14"></path>
+                                            <path d="m12 5 7 7-7 7"></path>
+                                        </svg></div>
+                                </div>
+                            </div>
+                            <div class="group relative" style="opacity:0;transform:translateX(-30px)">
+                                <div
+                                    class="flex items-start gap-5 p-5 rounded-xl hover:bg-[var(--bg-secondary)] transition-all cursor-pointer">
+                                    <div
+                                        class="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--accent-primary)] text-white font-bold flex items-center justify-center text-lg shadow-lg shadow-[var(--accent-primary-glow)]">
+                                        3</div>
+                                    <div class="flex-1 min-w-0 pt-0.5">
+                                        <div class="flex items-center gap-2.5 mb-2">
+                                            <div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="lucide lucide-eye w-5 h-5 text-[var(--accent-primary)] flex-shrink-0">
+                                                    <path
+                                                        d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0">
+                                                    </path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg></div>
+                                            <h3
+                                                class="text-lg font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors leading-tight">
+                                                Get Results</h3>
+                                        </div>
+                                        <p class="text-[var(--text-secondary)] text-sm leading-relaxed">View, copy, or
+                                            download your structured JSON prompt</p>
+                                    </div>
+                                    <div class="flex-shrink-0 self-start pt-1"
+                                        style="opacity:0;transform:translateX(-10px)"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-arrow-right w-5 h-5 text-[var(--accent-primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <path d="M5 12h14"></path>
+                                            <path d="m12 5 7 7-7 7"></path>
+                                        </svg></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-16 sm:py-20 border-t border-[var(--border-subtle)]">
+                    <div class="max-w-3xl mx-auto" style="opacity:0;transform:translateY(20px)">
+                        <div class="flex items-center justify-center gap-3 mb-6">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-[var(--accent-primary-subtle)] flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="lucide lucide-key w-6 h-6 text-[var(--accent-primary)]">
+                                    <path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"></path>
+                                    <path d="m21 2-9.6 9.6"></path>
+                                    <circle cx="7.5" cy="15.5" r="5.5"></circle>
+                                </svg></div>
+                            <h2 class="text-2xl font-bold text-[var(--text-primary)]">Bring Your Own API Key</h2>
+                        </div>
+                        <p class="text-center text-[var(--text-secondary)] mb-8 max-w-xl mx-auto">Get unlimited
+                            conversions by using your own Gemini API key. It&#x27;s free to get and gives you full
+                            control.</p>
+                        <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                            <div class="p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
+                                <h3 class="font-semibold text-[var(--text-primary)] mb-2 flex items-center gap-2"><span
+                                        class="w-6 h-6 rounded-full bg-[var(--accent-primary-subtle)] flex items-center justify-center text-xs font-bold text-[var(--accent-primary)]">1</span>Get
+                                    Your Free Key</h3>
+                                <p class="text-sm text-[var(--text-secondary)]">Visit<!-- --> <a
+                                        href="https://aistudio.google.com/apikey" target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="text-[var(--accent-primary)] hover:underline">Google AI Studio</a>
+                                    <!-- -->and create a free Gemini API key in seconds.</p>
+                            </div>
+                            <div class="p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)]">
+                                <h3 class="font-semibold text-[var(--text-primary)] mb-2 flex items-center gap-2"><span
+                                        class="w-6 h-6 rounded-full bg-[var(--accent-primary-subtle)] flex items-center justify-center text-xs font-bold text-[var(--accent-primary)]">2</span>Add
+                                    to Settings</h3>
+                                <p class="text-sm text-[var(--text-secondary)]">Go to<!-- --> <button
+                                        class="text-[var(--accent-primary)] hover:underline inline-flex items-center gap-1"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-settings w-3 h-3">
+                                            <path
+                                                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                                            </path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>Settings</button> <!-- -->and paste your API key. It&#x27;s stored locally
+                                    and never sent to our servers.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="text-center p-4 rounded-xl bg-[var(--accent-success)]/10 border border-[var(--accent-success)]/20">
+                            <p
+                                class="text-sm text-[var(--accent-success)] font-medium flex items-center justify-center gap-4 flex-wrap">
+                                <span class="flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-check w-4 h-4">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg> Your API key stays in your browser</span><span
+                                    class="flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-check w-4 h-4">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg> Unlimited conversions</span><span class="flex items-center gap-1.5"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="lucide lucide-check w-4 h-4">
+                                        <path d="M20 6 9 17l-5-5"></path>
+                                    </svg> No daily limits</span></p>
+                        </div>
+                    </div>
+                </section>
+                <section class="py-16 sm:py-20 border-t border-[var(--border-subtle)]">
+                    <div class="text-center max-w-2xl mx-auto" style="opacity:0;transform:translateY(20px)">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-4">Ready to Transform
+                            Your Prompts?</h2>
+                        <p class="text-[var(--text-secondary)] mb-8">Start converting your natural language prompts into
+                            structured JSON today.</p><button
+                            class="group relative inline-flex items-center gap-2 px-8 py-4 bg-[var(--accent-primary)] text-white font-semibold rounded-xl shadow-lg shadow-[var(--accent-primary-glow)] overflow-hidden"
+                            tabindex="0">
+                            <div class="absolute inset-0 bg-gradient-to-r from-[var(--accent-primary)] via-[var(--accent-secondary)] to-[var(--accent-primary)] opacity-0"
+                                style="transform:translateX(-100%)"></div><span class="relative z-10">Get
+                                Started</span><span class="relative z-10 hidden md:block"
+                                style="opacity:0;transform:translateX(-12px)"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    class="lucide lucide-arrow-right w-5 h-5">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg></span><span class="relative z-10 md:hidden"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-arrow-right w-5 h-5">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg></span>
+                        </button>
+                    </div>
+                </section>
+                <section class="py-16 sm:py-20 border-t border-[var(--border-subtle)]">
+                    <div class="max-w-3xl mx-auto" style="opacity:0">
+                        <div class="flex items-center justify-center gap-3 mb-10"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-circle-help w-6 h-6 text-[var(--accent-primary)]">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                <path d="M12 17h.01"></path>
+                            </svg>
+                            <h2 class="text-2xl font-bold text-[var(--text-primary)]">Frequently Asked Questions</h2>
+                        </div>
+                        <div class="space-y-4">
+                            <details
+                                class="group p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] cursor-pointer"
+                                style="opacity:0;transform:translateY(10px)">
+                                <summary
+                                    class="flex items-center justify-between font-medium text-[var(--text-primary)] list-none">
+                                    <span>What is Y7-Jprompter?</span><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-chevron-down w-5 h-5 text-[var(--text-muted)] group-open:rotate-180 transition-transform">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg></summary>
+                                <p class="mt-3 text-sm text-[var(--text-secondary)] leading-relaxed">Y7-Jprompter is a
+                                    free tool that converts natural language prompts into structured JSON format. This
+                                    helps you create more effective prompts for AI systems by organizing your
+                                    instructions clearly.</p>
+                            </details>
+                            <details
+                                class="group p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] cursor-pointer"
+                                style="opacity:0;transform:translateY(10px)">
+                                <summary
+                                    class="flex items-center justify-between font-medium text-[var(--text-primary)] list-none">
+                                    <span>Is it really free to use?</span><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-chevron-down w-5 h-5 text-[var(--text-muted)] group-open:rotate-180 transition-transform">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg></summary>
+                                <p class="mt-3 text-sm text-[var(--text-secondary)] leading-relaxed">Yes! You get 100
+                                    free conversions per day. For unlimited usage, you can add your own free Gemini API
+                                    key from Google AI Studio.</p>
+                            </details>
+                            <details
+                                class="group p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] cursor-pointer"
+                                style="opacity:0;transform:translateY(10px)">
+                                <summary
+                                    class="flex items-center justify-between font-medium text-[var(--text-primary)] list-none">
+                                    <span>Is my API key safe?</span><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-chevron-down w-5 h-5 text-[var(--text-muted)] group-open:rotate-180 transition-transform">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg></summary>
+                                <p class="mt-3 text-sm text-[var(--text-secondary)] leading-relaxed">Absolutely. Your
+                                    API key is stored only in your browser&#x27;s local storage and is sent directly to
+                                    Google&#x27;s API. We never store or have access to your key on our servers.</p>
+                            </details>
+                            <details
+                                class="group p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] cursor-pointer"
+                                style="opacity:0;transform:translateY(10px)">
+                                <summary
+                                    class="flex items-center justify-between font-medium text-[var(--text-primary)] list-none">
+                                    <span>What are complexity levels?</span><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-chevron-down w-5 h-5 text-[var(--text-muted)] group-open:rotate-180 transition-transform">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg></summary>
+                                <p class="mt-3 text-sm text-[var(--text-secondary)] leading-relaxed">Complexity levels
+                                    (1-7) control how detailed the JSON output will be. Level 1 gives you a simple
+                                    structure, while level 7 provides the most comprehensive breakdown with all
+                                    available fields.</p>
+                            </details>
+                            <details
+                                class="group p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] cursor-pointer"
+                                style="opacity:0;transform:translateY(10px)">
+                                <summary
+                                    class="flex items-center justify-between font-medium text-[var(--text-primary)] list-none">
+                                    <span>What is Context Injection?</span><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-chevron-down w-5 h-5 text-[var(--text-muted)] group-open:rotate-180 transition-transform">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg></summary>
+                                <p class="mt-3 text-sm text-[var(--text-secondary)] leading-relaxed">Context Injection
+                                    (available at complexity 3+) lets you add project-specific context like your tech
+                                    stack, coding style, or domain knowledge. This helps generate more tailored prompt
+                                    structures.</p>
+                            </details>
+                            <details
+                                class="group p-5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] cursor-pointer"
+                                style="opacity:0;transform:translateY(10px)">
+                                <summary
+                                    class="flex items-center justify-between font-medium text-[var(--text-primary)] list-none">
+                                    <span>Can I save my converted prompts?</span><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="lucide lucide-chevron-down w-5 h-5 text-[var(--text-muted)] group-open:rotate-180 transition-transform">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg></summary>
+                                <p class="mt-3 text-sm text-[var(--text-secondary)] leading-relaxed">Yes! All your
+                                    conversions are automatically saved to History. You can also save favorites to your
+                                    Prompt Library for quick access later.</p>
+                            </details>
+                        </div>
+                    </div>
+                </section>
+                <footer class="py-8 border-t border-[var(--border-subtle)] text-center">
+                    <p class="text-sm text-[var(--text-muted)]">© 2026 Y7 Labs. All rights reserved.</p>
+                </footer>
+            </main>
+        </div>
+    </div><!--$--><!--/$-->
+    <section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text"
+        aria-atomic="false"></section>
+    <script src="/next/static/chunks/e157419ec018148e.js" id="_R_" async=""></script>
+    <script src="./inline-index-5.js"></script>
+    <script src="./inline-index-4.js"></script>
+    <script src="./inline-index-3.js"></script>
+    <script src="./inline-index-2.js"></script>
+    <script src="./inline-index-1.js"></script>
+    <script src="./inline-index-0.js"></script>
+</body>
+
+</html>

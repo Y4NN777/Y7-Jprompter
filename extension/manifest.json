@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+
+    "name": "Y7-Jprompter",
+    "description": "",
+    "version": "1.0.0",
+
+    "action": {
+    "default_title": "Open in Side Panel"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "sidePanel"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ]
+
+}
