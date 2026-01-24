@@ -3225,36 +3225,6 @@ Read more: https://nextjs.org/docs/messages/next-image-unconfigured-localpattern
                     if (error instanceof Error) {
                         const errorMsg = error.message.toLowerCase();
                         
-                    //   console.error('[Gemini] Error details:', {
-                    //     message: error.message,
-                    //     type: error.constructor.name,
-                    //     isRateLimit: errorMsg.includes('429') || errorMsg.includes('rate') || errorMsg.includes('quota'),
-                    //   });
-                        
-                    //   // Handle rate limiting (429 errors)
-                    //   if (errorMsg.includes('429') || errorMsg.includes('rate') || errorMsg.includes('quota')) {
-                    //     const retryAfter = extractRetryAfter(error) || 60;
-                        
-                    //     // Detect if this is a daily quota or per-minute rate limit
-                    //     const isDaily = errorMsg.includes('per day') || errorMsg.includes('daily') || errorMsg.includes('_free_tier_requests');
-                    //     const limitType = isDaily ? 'daily' : 'minute';
-                        
-                    //     console.log('[Gemini] Rate limit detected:', {
-                    //       retryAfter,
-                    //       type: limitType,
-                    //       isDaily,
-                    //       errorSnippet: errorMsg.substring(0, 200)
-                    //     });
-                        
-                    //     throw new RateLimitError({
-                    //       retryAfter,
-                    //       source: 'gemini',
-                    //       type: limitType,
-                    //       resetAt: Date.now() + (retryAfter * 1000),
-                    //     }, isDaily ? 'Gemini API daily quota exceeded' : 'Gemini API rate limit reached');
-                    //   }
-                        
-                        // Other error types
                         if (errorMsg.includes('api key') || errorMsg.includes('api_key_invalid')) {
                         console.error('[Gemini] API Key error:', error.message);
                         throw new Error('Invalid API key. Please check your Gemini API key in Settings.');
