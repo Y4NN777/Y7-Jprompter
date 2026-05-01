@@ -2,26 +2,32 @@
     "manifest_version": 3,
 
     "name": "Y7-Jprompter",
-    "description": "",
+    "description": "Transform regular prompts into structured JSON prompts for better AI results using Google Gemini AI.",
     "version": "1.0.0",
 
+    "icons": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+
     "action": {
-    "default_title": "Open in Side Panel"
-  },
-  "side_panel": {
-    "default_path": "index.html"
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "permissions": [
-    "sidePanel"
-  ],
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
-  },
-  "host_permissions": [
-    "https://generativelanguage.googleapis.com/*"
-  ]
+      "default_title": "Open in Side Panel"
+    },
+    "side_panel": {
+      "default_path": "index.html"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "permissions": [
+      "sidePanel"
+    ],
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+    },
+    "host_permissions": [
+      "https://generativelanguage.googleapis.com/*"
+    ]
 
 }
